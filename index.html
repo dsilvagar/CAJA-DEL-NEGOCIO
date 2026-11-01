@@ -1056,9 +1056,13 @@ function renderConfig(){
       <div class="grid2"><button class="btn ghost" type="button" data-respaldo="1" ${dlOK?"":"disabled"}>Descargar respaldo</button><button class="btn ghost" type="button" data-cargar="1">Cargar respaldo</button></div>
       ${cargarPend?`<div class="ledger"><small style="color:var(--fg)">Este respaldo es del ${esc(cargarPend.fecha)} y trae ${cargarPend.S.movs.length} movimientos. Va a reemplazar todo lo que tienes ahora en esta app.</small><div class="grid2"><button class="btn ghost sm" type="button" data-cargarno="1">Cancelar</button><button class="btn sm" type="button" data-cargarsi="1" style="background:var(--out)">Reemplazar mis datos</button></div></div>`:""}
       ${dlOK?"":'<small style="color:var(--muted)">Para descargar el respaldo abre la app desde claude.ai.</small>'}
+    </div>
+    <div class="card"><h2>Empezar desde cero</h2>
+      <small style="color:var(--muted)">Borra todos los movimientos, empleados, proveedores, tareas, gastos fijos y fotos, incluidos los de ejemplo. Se quedan tus cuentas en $0, tus categorías, tu configuración y los datos del negocio. Si quieres guardar algo, descarga antes un respaldo.</small>
+      ${ceroPend?`<div class="ledger"><small style="color:var(--fg)">¿Seguro? Esto no se puede deshacer.</small><div class="grid2"><button class="btn ghost sm" type="button" data-cerono="1">Cancelar</button><button class="btn sm" type="button" data-cerosi="1" style="background:var(--out)">Sí, borrar todo</button></div></div>`:'<button class="btn ghost" type="button" data-cero="1" style="color:var(--out)">Dejar la app en ceros</button>'}
     </div>`;
 }
-let cargarPend=null;
+let cargarPend=null,ceroPend=false;
 const inResp=document.createElement("input");inResp.type="file";inResp.accept=".json,application/json";
 inResp.addEventListener("change",async()=>{const fl=inResp.files[0];inResp.value="";if(!fl)return;
   try{const o=JSON.parse(await fl.text());if(!o||o.app!=="caja-del-negocio"||!o.S||!Array.isArray(o.S.movs))throw 0;cargarPend=o;renderConfig()}
@@ -1069,6 +1073,13 @@ document.addEventListener("click",async e=>{const d=e.target.dataset;
     catch(err){if(err&&err.code!=="declined")toast("No se pudo descargar el respaldo")}}
   if(d.cargar)inResp.click();
   if(d.cargarno){cargarPend=null;renderConfig()}
+  if(d.cero){ceroPend=true;renderConfig()}
+  if(d.cerono){ceroPend=false;renderConfig()}
+  if(d.cerosi){S.movs=[];S.emps=[];S.provs=[];S.tareas=[];S.fijos=[];S.config.ocultos=[];
+    S.cuentas=S.cuentas.filter(c=>c.id===1||c.id===2||!c.ej).map(c=>({...c,inicial:0}));
+    if(!S.cuentas.length)S.cuentas=[{id:1,nombre:"Efectivo (caja)",inicial:0},{id:2,nombre:"Banco",inicial:0}];
+    try{await fotoOp("readwrite",st=>st.clear())}catch(err){}
+    guardar();location.hash="inicio";location.reload()}
   if(d.cargarsi&&cargarPend){S=cargarPend.S;cargarPend=null;guardar();location.reload()}
 });
 function mover(arr,i,dir){const j=i+dir;if(j<0||j>=arr.length)return;[arr[i],arr[j]]=[arr[j],arr[i]]}
@@ -1299,7 +1310,7 @@ prepMov();render();ver(location.hash.slice(1));
 </script>
 
 <script>
-if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).catch(()=>{}));
 </script>
 </body>
 </html>
