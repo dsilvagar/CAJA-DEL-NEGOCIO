@@ -152,6 +152,13 @@ details[open] summary{margin-bottom:10px}
 .visor-in{max-width:520px;width:100%;display:flex;flex-direction:column;gap:10px}
 .visor img{width:100%;max-height:72vh;object-fit:contain;border-radius:12px;background:var(--surface)}
 input[type=file]{padding:8px;font-size:.9rem}
+/* Perfil personal: otro color para distinguirlo del negocio */
+:root.personal{--accent:#35589a;--accent-fg:#ffffff}
+@media (prefers-color-scheme: dark){:root.personal:not([data-theme="light"]){--accent:#8fb0f0;--accent-fg:#0d1320}}
+:root.personal[data-theme="dark"]{--accent:#8fb0f0;--accent-fg:#0d1320}
+.perfil{font-family:var(--f-display);font-size:1.25rem;font-weight:700;border:0;background:none;padding:4px 26px 4px 0;width:auto;max-width:100%;color:var(--fg);cursor:pointer;
+  -webkit-appearance:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--accent) 50%),linear-gradient(135deg,var(--accent) 50%,transparent 50%);
+  background-position:calc(100% - 12px) 55%,calc(100% - 6px) 55%;background-size:6px 6px;background-repeat:no-repeat}
 .note{font-size:.82rem;color:var(--muted);background:var(--chip);border-radius:10px;padding:10px 12px;margin:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:.9rem;font-weight:600;z-index:20;max-width:calc(100% - 32px);text-align:center}
 nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:10}
@@ -165,14 +172,14 @@ nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:
   <!-- INICIO -->
   <section class="view" id="v-inicio">
     <header>
-      <h1>Caja del Negocio</h1>
+      <h1 style="min-width:0"><select id="perfil" class="perfil" aria-label="Cambiar entre negocio y personal"><option value="negocio">Caja del Negocio</option><option value="personal">Mi dinero personal</option></select></h1>
       <div style="display:flex;gap:8px;align-items:center">
         <select id="mes" aria-label="Mes" style="width:auto"></select>
         <button class="ico" type="button" data-ir="config" aria-label="Configuración" title="Configuración"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="pointer-events:none;vertical-align:-3px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
       </div>
     </header>
     <div data-w="ganancia" class="hero">
-      <span class="lbl">Ganancia del mes</span>
+      <span class="lbl" id="ganLbl">Ganancia del mes</span>
       <span class="big" id="ganancia">$0</span>
       <div class="split">
         <div><small>Entró</small><b id="totIn">$0</b></div>
@@ -470,7 +477,9 @@ const FEATS=[["asis","Checador de asistencia","Los botones Vino hoy / Faltó hoy
 const FORMA={efectivo:"Efectivo",tarjeta:"Tarjeta",cheque:"Cheque",transferencia:"Transferencia"};
 const r2=n=>Math.round(n*100)/100;
 const NOMINA="Nómina";
-const KEY="caja-negocio-v2";
+let PERFIL="negocio";try{if(localStorage.getItem("caja-perfil")==="personal")PERFIL="personal"}catch(e){}
+const KEY=PERFIL==="personal"?"caja-personal-v1":"caja-negocio-v2";
+document.documentElement.classList.toggle("personal",PERFIL==="personal");
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt=n=>(n<0?"−":"")+"$"+Math.abs(n).toLocaleString("es-MX",{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -514,7 +523,11 @@ function semilla(){
 }
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
-if(!S||!Array.isArray(S.movs))S=semilla();
+if(!S||!Array.isArray(S.movs))S=PERFIL==="personal"?vacioPersonal():semilla();
+/* Perfil personal: empieza vacío, con categorías de casa y sin lo que es solo del negocio */
+function vacioPersonal(){return {cuentas:[{id:1,nombre:"Efectivo",inicial:0},{id:2,nombre:"Banco",inicial:0}],movs:[],emps:[],provs:[],tareas:[],fijos:[],
+  config:{cats:{out:["Comida","Súper","Casa","Luz, agua, internet","Transporte y gasolina","Salud","Escuela","Ropa","Diversión","Otros"],in:["Sueldo","Retiro del negocio","Otros ingresos"],tarea:["Pago","Compra","Pendiente","Trámite","Otro"]},
+    off:{inicio:["mercancia","horario","proveedores","terminales","aviso"],gastos:["terminal"]},feat:{asis:false,merc:false,prest:false}}}}
 S.provs=S.provs||[];S.tareas=S.tareas||[];S.emps=S.emps||[];S.negocio=S.negocio||{};S.fijos=S.fijos||[];
 S.config=Object.assign({orden:{},off:{},cats:{out:[...CATS.out],in:[...CATS.in],tarea:["Pago","Compra","Pendiente","Trámite","Otro"]},ocultos:[],feat:{asis:true,merc:true,prest:true},mercPct:5,term:{mp:4.06,getnet:0.85773}},S.config||{});
 for(const v in WIDGETS){const ids=WIDGETS[v].map(w=>w[0]),o=(S.config.orden[v]||[]).filter(x=>ids.includes(x));S.config.orden[v]=[...o,...ids.filter(x=>!o.includes(x))];S.config.off[v]=S.config.off[v]||[]}
@@ -1297,7 +1310,7 @@ $("fNeg").addEventListener("submit",e=>{e.preventDefault();["Nombre","Dueno","Di
 
 const VISTAS=["inicio","gastos","tareas","cuentas","nomina","config"];
 function ver(v){
-  if(!VISTAS.includes(v))v="inicio";
+  if(!VISTAS.includes(v)||(PERFIL==="personal"&&v==="nomina"))v="inicio";
   VISTAS.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.v===v));
   if(v==="config")renderConfig();
@@ -1306,6 +1319,11 @@ function ver(v){
 }
 window.addEventListener("hashchange",()=>ver(location.hash.slice(1)));
 setInterval(()=>{if(cerrando===null&&!$("v-tareas").hidden||!$("v-inicio").hidden)renderTareas(S.cuentas.map(c=>`<option value="${c.id}">${esc(c.nombre)}</option>`).join(""))},60000);
+$("perfil").value=PERFIL;
+if(PERFIL==="personal")$("ganLbl").textContent="Te quedó este mes";
+document.querySelector('.tab[data-v="nomina"]').hidden=PERFIL==="personal";
+document.title=PERFIL==="personal"?"Mi dinero personal":"Caja del Negocio";
+$("perfil").onchange=()=>{try{localStorage.setItem("caja-perfil",$("perfil").value)}catch(e){}location.hash="inicio";location.reload()};
 prepMov();render();ver(location.hash.slice(1));
 </script>
 
