@@ -206,6 +206,10 @@ input[type=file]{padding:8px;font-size:.9rem}
 .manual-v img{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
 .manual-v .fig{display:flex;flex-direction:column;gap:4px}.manual-v .fig small{color:var(--muted)}
 .manual-v .idx{display:flex;flex-wrap:wrap;gap:6px}
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(128px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;align-items:center;gap:6px;border:0;border-radius:99px;padding:11px 16px 11px 13px;background:var(--fg);color:var(--bg);font-weight:700;box-shadow:0 8px 22px rgb(0 0 0 / .25);cursor:pointer}
+.pill.borr{background:color-mix(in srgb,var(--out) 16%,transparent);color:var(--out)}
+.pill.rec{background:color-mix(in srgb,var(--night) 16%,transparent);color:var(--night)}
+#conf .ledger .lg span:last-child{font-family:var(--f-body)}
 .note{font-size:.82rem;color:var(--muted);background:var(--chip);border-radius:10px;padding:10px 12px;margin:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:.9rem;font-weight:600;z-index:20;max-width:calc(100% - 32px);text-align:center}
 nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:10}
@@ -509,13 +513,23 @@ nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:
     </div>
     <div id="cfg" class="stack"></div>
   </section>
+  <!-- HISTORIAL -->
+  <section class="view" id="v-historial" hidden>
+    <h1>Historial</h1>
+    <div class="seg" role="radiogroup" aria-label="Ver">
+      <label><input type="radio" name="hsub" value="borr" checked> Borrados</label>
+      <label><input type="radio" name="hsub" value="todo"> Todo lo que se hizo</label>
+    </div>
+    <div id="hBorr" class="stack tight"></div>
+    <div id="hTodo" class="stack tight" hidden></div>
+  </section>
   <!-- MANUAL -->
   <section class="view manual-v" id="v-manual" hidden>
     <header><h1>Manual de uso</h1><button class="btn ghost sm" type="button" data-ir="inicio">Cerrar</button></header>
 <!--MANUAL-->
 <div class="card">
   <p>Esta app es tu libreta de cuentas en el celular. Aquí anotas lo que vendes y lo que gastas, ves cuánto dinero tienes en cada cuenta, apartas para tus pagos fijos, llevas tus pendientes y le pagas a tus empleados. Todo se guarda solo en tu celular.</p>
-  <div class="idx"><button type="button" class="chipb" data-mir="m-empezar">Empezar</button><button type="button" class="chipb" data-mir="m-inicio">Inicio</button><button type="button" class="chipb" data-mir="m-gastos">Gastos</button><button type="button" class="chipb" data-mir="m-fijos">Gastos fijos</button><button type="button" class="chipb" data-mir="m-tareas">Tareas</button><button type="button" class="chipb" data-mir="m-cuentas">Cuentas</button><button type="button" class="chipb" data-mir="m-dolar">Dólares</button><button type="button" class="chipb" data-mir="m-nomina">Nómina</button><button type="button" class="chipb" data-mir="m-acomodar">Acomodar y minimizar</button><button type="button" class="chipb" data-mir="m-config">Configuración</button><button type="button" class="chipb" data-mir="m-respaldo">Respaldo</button></div>
+  <div class="idx"><button type="button" class="chipb" data-mir="m-empezar">Empezar</button><button type="button" class="chipb" data-mir="m-inicio">Inicio</button><button type="button" class="chipb" data-mir="m-gastos">Gastos</button><button type="button" class="chipb" data-mir="m-fijos">Gastos fijos</button><button type="button" class="chipb" data-mir="m-tareas">Tareas</button><button type="button" class="chipb" data-mir="m-cuentas">Cuentas</button><button type="button" class="chipb" data-mir="m-dolar">Dólares</button><button type="button" class="chipb" data-mir="m-nomina">Nómina</button><button type="button" class="chipb" data-mir="m-acomodar">Acomodar y minimizar</button><button type="button" class="chipb" data-mir="m-config">Configuración</button><button type="button" class="chipb" data-mir="m-historial">Historial y deshacer</button><button type="button" class="chipb" data-mir="m-respaldo">Respaldo</button></div>
 </div>
 
 <div class="card" id="m-empezar">
@@ -635,8 +649,18 @@ nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:
   </ul>
 </div>
 
+<div class="card" id="m-historial">
+  <h2>11. Confirmar, deshacer e historial</h2>
+  <ul>
+    <li><b>Confirmar:</b> antes de registrar o borrar algo, la app te enseña un resumen y te pregunta si estás seguro. Si fue sin querer, toca <b>Cancelar</b>. Lo puedes apagar en Configuración › Confirmar antes de actuar.</li>
+    <li><b>Deshacer:</b> cuando borras algo aparece abajo el botón <b>↶ Deshacer</b> por unos segundos. Tócalo y confirma para recuperarlo.</li>
+    <li><b>Pestaña Historial › Borrados:</b> todo lo que borras queda aquí, aparte de tus gastos y ventas. Toca <b>↶ Recuperar</b> para regresarlo cuando quieras.</li>
+    <li><b>Historial › Todo lo que se hizo:</b> el registro con día y hora de todo lo que se agrega, se borra, se cambia o se recupera. No se puede borrar.</li>
+  </ul>
+</div>
+
 <div class="card" id="m-respaldo">
-  <h2>11. Respaldo y empezar de cero</h2>
+  <h2>12. Respaldo y empezar de cero</h2>
   <ul>
     <li>Tus datos viven solo en tu celular. Si borras la app o cambias de celular se pierden, así que de vez en cuando toca <b>Descargar respaldo</b> en Configuración y guárdalo.</li>
     <li>Para pasarlos a otro celular, abre la app ahí y toca <b>Cargar respaldo</b>. Las fotos de comprobantes no van en el respaldo.</li>
@@ -663,7 +687,15 @@ nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:
   <button class="tab" role="tab" data-v="tareas" aria-selected="false"></button>
   <button class="tab" role="tab" data-v="cuentas" aria-selected="false"></button>
   <button class="tab" role="tab" data-v="nomina" aria-selected="false"></button>
+  <button class="tab" role="tab" data-v="historial" aria-selected="false"></button>
 </nav>
+<button class="fab" id="fabUndo" type="button" hidden aria-label="Deshacer lo último que borraste"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span id="fabTxt">Deshacer</span></button>
+<div class="visor" id="conf" hidden role="alertdialog" aria-modal="true" aria-labelledby="confT">
+  <div class="card" style="max-width:420px;width:100%;gap:14px">
+    <h2 id="confT"></h2><div id="confD" class="ledger"></div>
+    <div class="grid2"><button class="btn ghost" type="button" id="confNo">Cancelar</button><button class="btn" type="button" id="confSi"></button></div>
+  </div>
+</div>
 <div class="barAc" id="barAc" hidden><span>Arrastra los recuadros para acomodarlos</span><button class="btn sm" type="button" id="acListo">Listo</button></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -677,7 +709,7 @@ const WIDGETS={
   cuentas:[["total","Total en cuentas","La suma de todas tus cuentas y cuánto tienes apartado."],["agregar","Agregar dinero","Para meter dinero que no es venta, como un préstamo."],["dolar","Tipo de cambio del dólar","El precio del dólar para sumar tus cuentas en dólares en pesos."],["cuentas","Tus cuentas","El saldo de cada cuenta y la opción de corregirlo."],["pasar","Pasar dinero entre cuentas","Por ejemplo, depositar el efectivo de la caja al banco."],["nueva","Agregar cuenta","Para dar de alta otra cuenta o tarjeta."]],
   nomina:[["resumen","Falta por pagar","Lo que les falta pagar a todos en este periodo."],["empleados","Empleados","La tarjeta de cada empleado con sus pagos y descuentos."],["bajas","Empleados dados de baja","La lista de quienes ya no trabajan contigo."],["calendario","Calendario de asistencia","Las asistencias y faltas de cada empleado por mes."],["alta","Agregar empleado","El formulario para dar de alta a alguien."],["negocio","Datos del negocio","Tu nombre y domicilio para contratos y recibos."]],
 };
-const VNOM={inicio:"Inicio",gastos:"Gastos",tareas:"Tareas",cuentas:"Cuentas",nomina:"Nómina"};
+const VNOM={inicio:"Inicio",gastos:"Gastos",tareas:"Tareas",cuentas:"Cuentas",nomina:"Nómina",historial:"Historial"};
 const FIJAS=["Mercancía","Comisión de terminal","Ventas con tarjeta"];
 const FEATS=[["asis","Checador de asistencia","Los botones Vino hoy / Faltó hoy y la semana en colores."],["merc","Mercancía que se llevan","Apuntar lo que un empleado se lleva para restarlo de su semana."],["prest","Préstamos a empleados","Prestar dinero y descontarlo cada sábado."]];
 const FORMA={efectivo:"Efectivo",tarjeta:"Tarjeta",cheque:"Cheque",transferencia:"Transferencia"};
@@ -734,8 +766,8 @@ if(!S||!Array.isArray(S.movs))S=PERFIL==="personal"?vacioPersonal():semilla();
 function vacioPersonal(){return {cuentas:[{id:1,nombre:"Efectivo",inicial:0},{id:2,nombre:"Banco",inicial:0}],movs:[],emps:[],provs:[],tareas:[],fijos:[],
   config:{cats:{out:["Comida","Súper","Casa","Luz, agua, internet","Transporte y gasolina","Salud","Escuela","Ropa","Diversión","Otros"],in:["Sueldo","Retiro del negocio","Otros ingresos"],tarea:["Pago","Compra","Pendiente","Trámite","Otro"]},
     off:{inicio:["mercancia","horario","proveedores","terminales","aviso"],gastos:["terminal"]},feat:{asis:false,merc:false,prest:false}}}}
-S.provs=S.provs||[];S.tareas=S.tareas||[];S.emps=S.emps||[];S.negocio=S.negocio||{};S.fijos=S.fijos||[];
-S.config=Object.assign({look:{tema:"auto",acento:null,tabs:{},w:{}},tabs:{},mover:true,min:{},orden:{},off:{},cats:{out:[...CATS.out],in:[...CATS.in],tarea:["Pago","Compra","Pendiente","Trámite","Otro"]},ocultos:[],feat:{asis:true,merc:true,prest:true},mercPct:5,term:{mp:4.06,getnet:0.85773}},S.config||{});
+S.papelera=S.papelera||[];S.historial=S.historial||[];S.provs=S.provs||[];S.tareas=S.tareas||[];S.emps=S.emps||[];S.negocio=S.negocio||{};S.fijos=S.fijos||[];
+S.config=Object.assign({conf:{borrar:true,agregar:true},look:{tema:"auto",acento:null,tabs:{},w:{}},tabs:{},mover:true,min:{},orden:{},off:{},cats:{out:[...CATS.out],in:[...CATS.in],tarea:["Pago","Compra","Pendiente","Trámite","Otro"]},ocultos:[],feat:{asis:true,merc:true,prest:true},mercPct:5,term:{mp:4.06,getnet:0.85773}},S.config||{});
 for(const v in WIDGETS){const ids=WIDGETS[v].map(w=>w[0]),o=(S.config.orden[v]||[]).filter(x=>ids.includes(x));S.config.orden[v]=[...o,...ids.filter(x=>!o.includes(x))];S.config.off[v]=S.config.off[v]||[]}
 CATS=S.config.cats;TERM.mp.pct=S.config.term.mp;TERM.getnet.pct=S.config.term.getnet;
 const PCT=()=>S.config.mercPct;
@@ -924,6 +956,7 @@ function render(){
   renderFijos(opts);
   renderTareas(opts);
   $("aviso").hidden=![...S.movs,...S.emps,...S.provs,...S.tareas,...S.fijos].some(x=>x.ej);
+  renderHist();
   document.documentElement.classList.toggle("puedeMover",S.config.mover!==false);
   aplicarLayout();colapsables();if(!$("v-config").hidden)renderConfig();
 }
@@ -1298,7 +1331,7 @@ document.addEventListener("submit",e=>{
 /* ---------- Apariencia: tema, colores y nombres de la barra de abajo ---------- */
 const COLORES=[["","Normal"],["#1f6b52","Verde"],["#2563eb","Azul"],["#0891b2","Turquesa"],["#7c3aed","Morado"],["#db2777","Rosa"],["#dc2626","Rojo"],["#ea580c","Naranja"],["#ca8a04","Amarillo"],["#78573a","Café"],["#6b7280","Gris"],["#111111","Negro"]];
 const fgDe=h=>{const n=parseInt((h||"#000").slice(1),16),r=n>>16,g=n>>8&255,b=n&255;return 0.299*r+0.587*g+0.114*b>165?"#141414":"#ffffff"};
-const ICO={inicio:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',gastos:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',tareas:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/>',cuentas:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><circle cx="16" cy="14.5" r="1.3"/>',nomina:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c3 .2 5.5 2.6 5.5 5.8"/>'};
+const ICO={historial:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',inicio:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',gastos:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',tareas:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/>',cuentas:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><circle cx="16" cy="14.5" r="1.3"/>',nomina:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2c3 .2 5.5 2.6 5.5 5.8"/>'};
 const icono=(v,n=22)=>`<svg width="${n}" height="${n}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[v]}</svg>`;
 const tabNom=v=>(S.config.tabs||{})[v]||VNOM[v];
 function pintarTabs(){document.querySelectorAll(".tab").forEach(t=>{const v=t.dataset.v;
@@ -1346,6 +1379,132 @@ const soltar=()=>{clearTimeout(lp&&lp.t);lp=null;if(drag){drag.els.forEach(x=>{x
 document.addEventListener("pointerup",soltar);document.addEventListener("pointercancel",soltar);
 window.addEventListener("click",e=>{if(noClick){noClick=false;e.stopPropagation();e.preventDefault()}else if(acView&&e.target.closest(".view>[data-w]")){e.stopPropagation();e.preventDefault()}},true);
 document.addEventListener("contextmenu",e=>{if(S.config.mover!==false&&e.target.closest(".view>[data-w]")&&!e.target.closest("input,select,textarea"))e.preventDefault()});
+
+/* ---------- Confirmar, papelera, deshacer e historial de todo ---------- */
+function confirmar(titulo,filas,boton,peligro){return new Promise(ok=>{
+  $("confT").textContent=titulo;$("confD").innerHTML=filas.map(([a,b])=>`<div class="lg"><span>${esc(a)}</span><span>${esc(b??"")}</span></div>`).join("");$("confD").hidden=!filas.length;
+  const si=$("confSi");si.textContent=boton;si.style.background=peligro?"var(--out)":"";si.style.color=peligro?"#fff":"";
+  $("conf").hidden=false;si.focus();
+  const fin=v=>{$("conf").hidden=true;si.onclick=$("confNo").onclick=$("conf").onclick=null;ok(v)};
+  si.onclick=()=>fin(true);$("confNo").onclick=()=>fin(false);$("conf").onclick=e=>{if(e.target.id==="conf")fin(false)};
+})}
+/* Foto de todo lo que hay, para saber qué se agregó, qué se borró y qué cambió en cada acción */
+function plano(){const m=new Map(),put=(c,arr,sin)=>{for(const x of arr||[])m.set(c+"#"+x.id,{c,x,j:JSON.stringify(x,(k,v)=>sin&&sin.includes(k)?undefined:v)})};
+  put("movs",S.movs);put("provs",S.provs);put("tareas",S.tareas);put("cuentas",S.cuentas);put("emps",S.emps,["merc","prest"]);put("fijos",S.fijos,["mov"]);
+  for(const e of S.emps){put("emps/"+e.id+"/merc",e.merc);put("emps/"+e.id+"/prest",e.prest)}
+  for(const f of S.fijos)put("fijos/"+f.id+"/mov",f.mov);return m}
+const TIPOMOV={out:"Gasto",in:"Venta / ingreso",dep:"Dinero agregado",tr:"Pasaste dinero",prest:"Préstamo"};
+function describir(c,x){
+  const emp=id=>S.emps.find(e=>e.id===+id)?.nombre||"empleado",fj=id=>fijo(+id)?.nombre||"gasto fijo";
+  if(c==="movs"){const cu=cuenta(x.tipo==="tr"?x.de:x.cuenta);return [TIPOMOV[x.tipo]+(x.concepto?": "+x.concepto:x.tipo==="tr"?": "+(cuenta(x.de)?.nombre||"")+" → "+(cuenta(x.a)?.nombre||""):""),dinero(cu,x.monto)]}
+  if(c==="provs")return ["Proveedor: "+x.nombre,""];if(c==="tareas")return ["Tarea: "+x.titulo,x.monto?fmt(x.monto):""];
+  if(c==="cuentas")return ["Cuenta: "+x.nombre,""];if(c==="emps")return ["Empleado: "+x.nombre,""];if(c==="fijos")return ["Gasto fijo: "+x.nombre,fmt(x.monto)];
+  const[p,id,k]=c.split("/");
+  if(k==="merc")return ["Mercancía que se llevó "+emp(id)+(x.desc?": "+x.desc:""),fmt(x.monto)];
+  if(k==="prest")return ["Préstamo a "+emp(id),fmt(x.monto)];
+  if(k==="mov")return [(ETQ[x.tipo]||"Movimiento")+" "+(x.otro?(fijo(x.otro)?.nombre||""):"")+" · "+fj(id),fmt(x.monto)];
+  return [c,""];
+}
+function cambioTxt(c,a,b){
+  if(c==="tareas"&&!a.hecha&&b.hecha)return "Terminaste la tarea: "+b.titulo;
+  if(c==="tareas"&&a.hecha&&!b.hecha)return "Regresaste a pendiente: "+b.titulo;
+  if(c==="emps"&&JSON.stringify(a.asis)!==JSON.stringify(b.asis))return "Asistencia de "+b.nombre;
+  if(c==="emps"&&!a.baja&&b.baja)return "Diste de baja a "+b.nombre;
+  if(c==="emps"&&a.baja&&!b.baja)return "Volviste a dar de alta a "+b.nombre;
+  if(c==="cuentas"&&a.inicial!==b.inicial)return "Corregiste el saldo de "+b.nombre+" a "+dinero(b,saldo(b));
+  return "Cambiaste "+describir(c,b)[0].toLowerCase();
+}
+const recorta=(arr,n)=>{if(arr.length>n)arr.splice(0,arr.length-n)};
+let ultimaBorr=null,fabT=null;
+function anotar(antes,origen){
+  const desp=plano(),borr=[],nuevos=[],camb=[];
+  for(const[k,v]of antes)if(!desp.has(k))borr.push(v);
+  for(const[k,v]of desp){const a=antes.get(k);if(!a)nuevos.push(v);else if(a.j!==v.j)camb.push([v.c,JSON.parse(a.j),v.x])}
+  if(!borr.length&&!nuevos.length&&!camb.length)return;
+  const ts=Date.now();
+  if(borr.length){
+    const top=borr.filter(v=>!v.c.includes("/")),prin=(top[0]||borr[0]),[d,m]=describir(prin.c,prin.x);
+    const ent={id:uid(),ts,desc:d,monto:m,n:borr.length,items:borr.map(v=>({c:v.c,x:JSON.parse(JSON.stringify(v.x))}))};
+    S.papelera.push(ent);recorta(S.papelera,300);ultimaBorr=ent.id;
+    S.historial.push({ts,t:"borr",txt:"Borraste "+d.charAt(0).toLowerCase()+d.slice(1)+(borr.length>1?` (y ${borr.length-1} registro${borr.length>2?"s":""} ligado${borr.length>2?"s":""})`:""),m});
+    mostrarFab();
+  }
+  if(nuevos.length){const top=nuevos.filter(v=>!v.c.includes("/")),lst=top.length?top:nuevos;
+    for(const v of lst.slice(0,3)){const[d,m]=describir(v.c,v.x);S.historial.push({ts,t:origen==="rec"?"rec":"agr",txt:(origen==="rec"?"Recuperaste ":"Agregaste ")+d.charAt(0).toLowerCase()+d.slice(1),m})}
+    if(lst.length>3)S.historial.push({ts,t:"agr",txt:`Y ${lst.length-3} registros más`,m:""})}
+  if(camb.length&&origen!=="rec"){const txts=[...new Set(camb.map(([c,a,b])=>cambioTxt(c,a,b)))];
+    for(const t of txts.slice(0,3))S.historial.push({ts,t:"cam",txt:t,m:""});if(txts.length>3)S.historial.push({ts,t:"cam",txt:`Y ${txts.length-3} cambios más`,m:""})}
+  recorta(S.historial,1500);guardar();renderHist();
+}
+function mostrarFab(){clearTimeout(fabT);const e=S.papelera.find(x=>x.id===ultimaBorr);$("fabUndo").hidden=!e||!!e.rec;
+  if(e&&!e.rec){$("fabTxt").textContent="Deshacer";fabT=setTimeout(()=>{$("fabUndo").hidden=true},20000)}}
+function recuperar(ent){
+  const antes=plano();
+  for(const it of [...ent.items].sort((a,b)=>a.c.split("/").length-b.c.split("/").length)){
+    let arr=null;const p=it.c.split("/");
+    if(p.length===1)arr=S[p[0]];else{const par=(p[0]==="emps"?S.emps:S.fijos).find(z=>z.id===+p[1]);if(par)arr=par[p[2]]}
+    if(arr&&!arr.some(z=>z.id===it.x.id))arr.push(JSON.parse(JSON.stringify(it.x)));
+  }
+  ent.rec=Date.now();anotar(antes,"rec");guardar();render();mostrarFab();toast("Recuperado: "+ent.desc);
+}
+async function pedirRecuperar(ent){
+  if(!ent||ent.rec)return;
+  const filas=ent.items.slice(0,6).map(v=>describir(v.c,v.x));if(ent.items.length>6)filas.push([`Y ${ent.items.length-6} más`,""]);
+  if(await confirmar("¿Recuperar lo que borraste?",filas,"Sí, recuperar"))recuperar(ent);
+}
+$("fabUndo").onclick=()=>pedirRecuperar(S.papelera.find(x=>x.id===ultimaBorr));
+/* Antes de borrar: confirmación. Formularios que agregan dinero o registros: confirmación con el resumen */
+const BORRA=["del","delm","delpr","delp","delt","delc","fdel","catdel"],VIGILA=["dele","fquitar","solo","tarea","asis","alta","dia"];
+const NOCONF=["catadd","edit","fedit","ajusteNo"],NOCONF_ID=["fTC","fNeg"];
+let pasar=false;
+window.addEventListener("click",async e=>{
+  if(pasar)return;const el=e.target.closest("button,[data-dia]");if(!el||!el.dataset)return;const d=el.dataset;
+  const k=BORRA.find(x=>d[x]!==undefined&&d[x]!=="");
+  if(k){e.stopPropagation();e.preventDefault();
+    if(S.config.conf.borrar!==false){
+      let filas=[];
+      if(k==="del"){const m=S.movs.find(x=>String(x.id)===d.del);if(m)filas=[describir("movs",m),["Fecha",fechaHora(m.ts)]]}
+      if(k==="delt"){const t=S.tareas.find(x=>String(x.id)===d.delt);if(t)filas=[describir("tareas",t)]}
+      if(k==="delp"){const x=prov(+d.delp);if(x)filas=[describir("provs",x)]}
+      if(k==="delc"){const x=cuenta(+d.delc);if(x)filas=[describir("cuentas",x),["Saldo",dinero(x,saldo(x))]]}
+      if(k==="catdel"){const[t,i]=d.catdel.split(":");filas=[["Categoría",S.config.cats[t][+i]]]}
+      if(k==="delm"||k==="delpr"){const[id,sid]=d[k].split(":"),x=S.emps.find(z=>String(z.id)===id),it=x&&x[k==="delm"?"merc":"prest"].find(z=>String(z.id)===sid);if(it)filas=[describir(`emps/${id}/${k==="delm"?"merc":"prest"}`,it)]}
+      if(k==="fdel"){for(const f of S.fijos){const it=f.mov.find(z=>String(z.id)===d.fdel);if(it){filas=[describir("fijos/"+f.id+"/mov",it)];break}}}
+      if(!await confirmar("¿Seguro que quieres borrar esto?",filas,"Sí, borrar",true))return;
+    }
+    const antes=plano();pasar=true;try{el.click()}finally{pasar=false}anotar(antes);return}
+  if(VIGILA.some(x=>d[x]!==undefined)){const antes=plano();setTimeout(()=>anotar(antes))}
+},true);
+window.addEventListener("submit",async e=>{
+  if(pasar)return;const f=e.target,d=f.dataset;
+  if(NOCONF.some(x=>d[x]!==undefined)||NOCONF_ID.includes(f.id)){if(d.edit!==undefined||d.fedit!==undefined){const antes=plano();setTimeout(()=>anotar(antes))}return}
+  if(S.config.conf.agregar===false){const antes=plano();setTimeout(()=>anotar(antes));return}
+  e.stopPropagation();e.preventDefault();
+  const btn=e.submitter||f.querySelector('button[type="submit"],button:not([type])'),num=f.querySelector('input[type="number"]'),txt=f.querySelector('input[type="text"]');
+  let accion=(btn?btn.textContent.trim():"Guardar").replace(/^\+\s*/,"");
+  const filas=[];
+  if(f.id==="fMov"){filas.push(["Tipo",tipoMov()==="out"?"Gasto":"Venta / ingreso"],["Concepto",$("mConcepto").value.trim()||$("mCat").value],["Monto",fmt(+$("mMonto").value||0)],["Categoría",$("mCat").value],["Cuenta",cuenta(+$("mCuenta").value)?.nombre||""])}
+  else{if(txt&&txt.value.trim())filas.push(["Concepto",txt.value.trim()]);if(num&&num.value)filas.push(["Monto",fmt(+num.value)]);
+    const sel=f.querySelector("select");if(sel&&sel.selectedOptions[0]&&/cuenta|De$/i.test((sel.getAttribute("aria-label")||"")+sel.id))filas.push(["Cuenta",sel.selectedOptions[0].textContent])}
+  if(!await confirmar("¿"+accion+"?",filas,"Sí, "+accion.charAt(0).toLowerCase()+accion.slice(1)))return;
+  const antes=plano();pasar=true;try{f.requestSubmit(btn&&btn.form===f?btn:undefined)}finally{pasar=false}anotar(antes);
+},true);
+document.querySelectorAll('input[name="hsub"]').forEach(r=>r.onchange=()=>{const v=document.querySelector('input[name="hsub"]:checked').value;$("hBorr").hidden=v!=="borr";$("hTodo").hidden=v!=="todo"});
+document.addEventListener("click",e=>{const d=e.target.dataset;if(d.recup)pedirRecuperar(S.papelera.find(x=>String(x.id)===d.recup))});
+function renderHist(){
+  const dia=ts=>cap(new Date(ts).toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"short",year:"numeric"}));
+  const grupos=(arr,fila)=>{let h="",dd="";for(const x of arr){const k=diaKey(x.ts);if(k!==dd){if(dd)h+="</div>";dd=k;h+=`<div class="list"><div class="day"><span>${dia(x.ts)}</span><span></span></div>`}h+=fila(x)}return h+(dd?"</div>":"")};
+  const pb=[...S.papelera].reverse();
+  $("hBorr").innerHTML=`<p class="note">Aquí queda todo lo que borras, aparte de tus gastos y ventas. No cuenta en tus cuentas. Toca “Recuperar” para regresarlo; te pide confirmar.</p>`+
+    (pb.length?grupos(pb,x=>`<div class="row"><div class="t"><div>${esc(x.desc)}${x.rec?'<span class="pill rec">recuperado</span>':'<span class="pill borr">borrado</span>'}</div><small>Se borró a las ${hora(x.ts)}${x.n>1?` · con ${x.n-1} registro${x.n>2?"s":""} ligado${x.n>2?"s":""}`:""}${x.rec?" · recuperado el "+fechaHora(x.rec):""}</small></div>
+      <div class="amt">${esc(x.monto||"")}${x.rec?"":`<button class="btn ghost sm" type="button" data-recup="${x.id}" style="display:block;margin:6px 0 0 auto;font-family:var(--f-body)">↶ Recuperar</button>`}</div></div>`)
+      :'<div class="card empty">No has borrado nada todavía.</div>');
+  const P={agr:["agregado","ok"],borr:["borrado","borr"],cam:["cambio","ej"],rec:["recuperado","rec"],sis:["app","ej"]};
+  const hs=[...S.historial].reverse().slice(0,400);
+  $("hTodo").innerHTML=`<p class="note">Registro de todo lo que se hace en la app: lo que se agrega, se borra, se cambia y se recupera, con día y hora. No se puede borrar.</p>`+
+    (hs.length?grupos(hs,x=>`<div class="row"><div class="t"><div>${esc(x.txt)}</div><small>${hora(x.ts)} <span class="pill ${P[x.t]?.[1]||"ej"}">${P[x.t]?.[0]||""}</span></small></div><div class="amt">${esc(x.m||"")}</div></div>`)
+      :'<div class="card empty">Todavía no hay movimientos en el historial. Desde ahora todo lo que hagas queda anotado aquí.</div>');
+}
 
 /* ---------- Minimizar recuadros (flechita arriba a la derecha) ---------- */
 const FLECHA='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>';
@@ -1397,7 +1556,11 @@ function renderConfig(){
     ${tabsV.map(v=>`<label class="field">${icono(v,16).replace("<svg",'<svg style="vertical-align:-3px;margin-right:4px"')}Pestaña de ${VNOM[v]}<input type="text" maxlength="12" value="${esc((C.tabs||{})[v]||"")}" placeholder="${VNOM[v]}" data-tabren="${v}"></label>`).join("")}
     <button class="btn ghost sm" type="button" data-tabreset="1">Regresar los nombres de siempre</button>
   </div></details>`;
-  $("cfg").innerHTML=apariencia+barra+
+  const seguridad=`<div class="card"><h2>🛡️ Confirmar antes de actuar</h2>
+    <div class="cfg-row" style="grid-template-columns:minmax(0,1fr) auto"><div><b>Preguntar antes de borrar</b><small>Te pide confirmar antes de borrar un gasto, una venta, una tarea o cualquier registro.</small></div><input class="sw" type="checkbox" role="switch" data-conf="borrar" ${S.config.conf.borrar!==false?"checked":""} aria-label="Preguntar antes de borrar"></div>
+    <div class="cfg-row" style="grid-template-columns:minmax(0,1fr) auto"><div><b>Preguntar antes de agregar</b><small>Te enseña el resumen (concepto, monto y cuenta) y te pide confirmar antes de guardar.</small></div><input class="sw" type="checkbox" role="switch" data-conf="agregar" ${S.config.conf.agregar!==false?"checked":""} aria-label="Preguntar antes de agregar"></div>
+    <small style="color:var(--muted)">Lo que borras siempre queda en la pestaña Historial y lo puedes recuperar.</small></div>`;
+  $("cfg").innerHTML=seguridad+apariencia+barra+
     sec("inicio","")+
     sec("gastos",cats("out","Categorías de gastos","El orden aquí es el orden en que aparecen al registrar un gasto.")+cats("in","Categorías de ventas e ingresos","Las opciones para registrar una venta o ingreso.")+
       `<div><h3 style="margin-bottom:4px">Conceptos guardados</h3><small style="color:var(--muted)">Corrige cómo se escribe un concepto o esconde los que ya no usas para que no salgan como sugerencia.</small>${cc||'<small style="display:block;color:var(--muted);margin-top:6px">Aún no hay conceptos guardados.</small>'}</div>
@@ -1446,7 +1609,7 @@ document.addEventListener("click",async e=>{const d=e.target.dataset;
   if(d.cargarno){cargarPend=null;renderConfig()}
   if(d.cero){ceroPend=true;renderConfig()}
   if(d.cerono){ceroPend=false;renderConfig()}
-  if(d.cerosi){S.movs=[];S.emps=[];S.provs=[];S.tareas=[];S.fijos=[];S.config.ocultos=[];
+  if(d.cerosi){S.movs=[];S.emps=[];S.provs=[];S.tareas=[];S.fijos=[];S.config.ocultos=[];S.papelera=[];S.historial.push({ts:Date.now(),t:"sis",txt:"Dejaste la app en ceros",m:""});
     S.cuentas=S.cuentas.filter(c=>c.id===1||c.id===2||!c.ej).map(c=>({...c,inicial:0}));
     if(!S.cuentas.length)S.cuentas=[{id:1,nombre:"Efectivo (caja)",inicial:0},{id:2,nombre:"Banco",inicial:0}];
     try{await fotoOp("readwrite",st=>st.clear())}catch(err){}
@@ -1477,6 +1640,7 @@ document.addEventListener("change",e=>{
     const i=C.ocultos.indexOf(k);if(i>=0)C.ocultos[i]=nuevo.toLowerCase();cfgListo("Concepto corregido en todos tus registros")}
   if(d.termpct){const v=parseFloat(el.value);if(!(v>=0))return;C.term[d.termpct]=v;TERM[d.termpct].pct=v;cfgListo("Comisión actualizada")}
   if(d.feat){C.feat[d.feat]=el.checked;cfgListo(el.checked?"Función encendida":"Función apagada")}
+  if(d.conf){C.conf[d.conf]=el.checked;S.historial.push({ts:Date.now(),t:"sis",txt:(el.checked?"Encendiste":"Apagaste")+" “Preguntar antes de "+d.conf+"”",m:""});cfgListo(el.checked?"Ahora te va a pedir confirmar":"Ya no te va a pedir confirmar")}
   if(d.mover){C.mover=el.checked;cfgListo(el.checked?"Ya puedes acomodar los recuadros con el dedo":"Recuadros fijos: ya no se mueven al presionarlos")}
   if(d.tema){C.look.tema=d.tema;guardar();aplicarLook();toast("Listo")}
   if(d.mercpct){const v=parseFloat(el.value);if(!(v>=0&&v<=100))return;C.mercPct=v;cfgListo("Descuento actualizado")}
@@ -1522,7 +1686,7 @@ document.addEventListener("click",e=>{const d=e.target.dataset;
   if(d.verfoto)verFoto(+d.verfoto);
 });
 document.addEventListener("click",e=>{const m=e.target.dataset.mir;if(m){const t=$(m);if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("visor").hidden=true;salirAcomodar()}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("visor").hidden=true;salirAcomodar();if(!$("conf").hidden)$("confNo").click()}
   if(e.key==="Enter"&&e.target.matches('[role="link"][data-ir]'))ver(e.target.dataset.ir)});
 
 function terminar(t){
@@ -1603,7 +1767,7 @@ $("fTarea").addEventListener("submit",e=>{e.preventDefault();
 document.addEventListener("click",e=>{
   const d=e.target.dataset;
   const ir=e.target.closest("[data-ir]");if(ir)ver(ir.dataset.ir);
-  if(d.del){fotoDel(d.del);const mv=S.movs.find(m=>String(m.id)===d.del),g=mv&&mv.term?(mv.ref||mv.id):null;
+  if(d.del){const mv=S.movs.find(m=>String(m.id)===d.del),g=mv&&mv.term?(mv.ref||mv.id):null;
     S.movs=S.movs.filter(m=>String(m.id)!==d.del&&!(g&&(m.id===g||m.ref===g)));S.fijos.forEach(f=>f.mov=f.mov.filter(x=>String(x.id)!==d.del));S.emps.forEach(x=>x.prest=x.prest.filter(l=>String(l.id)!==d.del));guardar();render();toast("Movimiento borrado")}
   if(d.asis&&!esDom(diaKey(Date.now()))){const[id,v]=d.asis.split(":"),x=S.emps.find(z=>String(z.id)===id),k=diaKey(Date.now());
     if(x.asis[k]===v)delete x.asis[k];else x.asis[k]=v;guardar();render();toast(x.asis[k]?x.nombre+(v==="a"?" vino hoy":" faltó hoy"):"Asistencia de hoy borrada")}
@@ -1677,7 +1841,7 @@ $("eIngreso").value=diaKey(Date.now());
 ["Nombre","Dueno","Dir","Ciudad"].forEach(k=>$("g"+k).value=S.negocio[k.toLowerCase()]||"");
 $("fNeg").addEventListener("submit",e=>{e.preventDefault();["Nombre","Dueno","Dir","Ciudad"].forEach(k=>S.negocio[k.toLowerCase()]=$("g"+k).value.trim());guardar();toast("Datos del negocio guardados")});
 
-const VISTAS=["inicio","gastos","tareas","cuentas","nomina","config","manual"];
+const VISTAS=["inicio","gastos","tareas","cuentas","nomina","historial","config","manual"];
 function ver(v){
   if(!VISTAS.includes(v)||(PERFIL==="personal"&&v==="nomina"))v="inicio";
   salirAcomodar();vistaActual=v;aplicarLook();
