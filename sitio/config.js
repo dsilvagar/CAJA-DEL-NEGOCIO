@@ -5,8 +5,9 @@
    ============================================================ */
 window.SITIO = {
   nombre: "Kaja",
-  // WhatsApp con lada de país, sin espacios ni "+". Ej: 5215512345678
-  whatsapp: "521XXXXXXXXXX",
+  // WhatsApp con lada de país, sin espacios ni "+". Ej: 523311974744
+  whatsapp: "523311974744",
+  whatsappVisible: "33 1197 4744",
   correo: "soporte@usakaja.com",
   // Para el aviso de privacidad
   responsable: "[NOMBRE COMPLETO DEL RESPONSABLE]",

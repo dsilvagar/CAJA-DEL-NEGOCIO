@@ -55,7 +55,7 @@ Licencias: `KAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
 | `LICENSE_SECRET` | una frase larga al azar; **no la cambies después** |
 | `APP_URL` | link que se entrega para instalar la app |
 | `SITE_URL` | `https://usakaja.com` |
-| `SOPORTE_WHATSAPP` | `5215512345678` |
+| `SOPORTE_WHATSAPP` | `523311974744` |
 | `MP_SANDBOX` | `1` solo para probar con credenciales de prueba |
 
 ## Prueba local

@@ -38,7 +38,7 @@
   <p>Si la app no funciona en tu dispositivo y no podemos resolverlo, escríbenos dentro de los 7 días siguientes a tu compra a <a data-correo href="#"></a> y te devolvemos tu dinero. Los derechos que te otorga la Ley Federal de Protección al Consumidor se mantienen en todo momento.</p>
 
   <h2>8. Soporte</h2>
-  <p>Te damos soporte por correo y WhatsApp en días hábiles. El plan Plus tiene atención prioritaria.</p>
+  <p>Te damos soporte en días hábiles por correo a <a data-correo href="#"></a> y por WhatsApp al <a data-wa href="#"></a>. El plan Plus tiene atención prioritaria.</p>
 
   <h2>9. Responsabilidad</h2>
   <p>La app se ofrece para ayudarte a organizar tu información. No somos responsables por decisiones de negocio tomadas con base en ella ni por pérdidas de datos causadas por falta de respaldo, fallas del dispositivo o uso indebido.</p>
@@ -57,6 +57,7 @@
 (function(){var C=window.SITIO||{};
 document.querySelectorAll("[data-c]").forEach(function(e){e.textContent=C[e.dataset.c]||"";});
 document.querySelectorAll("[data-correo]").forEach(function(a){a.href="mailto:"+C.correo;if(!a.textContent)a.textContent=C.correo;});
+document.querySelectorAll("[data-wa]").forEach(function(a){a.href="https://wa.me/"+C.whatsapp;a.target="_blank";a.rel="noopener";if(!a.textContent)a.textContent=C.whatsappVisible;});
 document.querySelectorAll("[data-anio]").forEach(function(s){s.textContent=new Date().getFullYear();});})();
 </script>
 </body>
