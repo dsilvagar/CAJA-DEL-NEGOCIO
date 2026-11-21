@@ -49,12 +49,12 @@ Licencias: `KAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
 | `MP_ACCESS_TOKEN` | Mercado Pago → Tus integraciones → tu app → Credenciales de producción → Access Token |
 | `MP_WEBHOOK_SECRET` | Mercado Pago → tu app → Webhooks → Firma secreta |
 | `RESEND_API_KEY` | resend.com → API Keys |
-| `EMAIL_FROM` | `Kaja <ventas@kaja.mx>` (dominio verificado en Resend) |
+| `EMAIL_FROM` | `Kaja <ventas@usakaja.com>` (dominio verificado en Resend) |
 | `REPLY_TO` | correo donde quieres recibir respuestas de clientes |
 | `ADMIN_EMAIL` | tu correo, para el aviso de cada venta |
 | `LICENSE_SECRET` | una frase larga al azar; **no la cambies después** |
 | `APP_URL` | link que se entrega para instalar la app |
-| `SITE_URL` | `https://kaja.mx` |
+| `SITE_URL` | `https://usakaja.com` |
 | `SOPORTE_WHATSAPP` | `5215512345678` |
 | `MP_SANDBOX` | `1` solo para probar con credenciales de prueba |
 
