@@ -9,9 +9,11 @@ window.SITIO = {
   whatsapp: "523311974744",
   whatsappVisible: "33 1197 4744",
   correo: "soporte@usakaja.com",
-  // Para el aviso de privacidad
-  responsable: "[NOMBRE COMPLETO DEL RESPONSABLE]",
-  domicilio: "[CALLE, NÚMERO, COLONIA, CIUDAD, ESTADO, C.P.], México",
+  // Para el aviso de privacidad y los términos.
+  // PENDIENTE: la ley pide nombre y domicilio completos del responsable.
+  // Cuando los tengas, pon aquí tu nombre (o razón social) y la dirección completa.
+  responsable: "Kaja",
+  domicilio: "Guadalajara, Jalisco, México",
   dominio: "usakaja.com",
   actualizado: "20 de noviembre de 2026",
   // Precio de lanzamiento (el que se cobra) y precio normal (tachado)
