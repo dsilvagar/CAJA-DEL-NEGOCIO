@@ -6,15 +6,18 @@
 <title>Kaja · La app para controlar tu negocio desde el celular</title>
 <meta name="description" content="Registra ventas y gastos, controla tu inventario, el fiado, el corte de caja y tus impuestos desde el celular. Un solo pago, sin mensualidades. Hecha en México.">
 <meta name="theme-color" content="#0b1a2e">
-<link rel="icon" href="img/logo.png">
-<link rel="apple-touch-icon" href="img/logo.png">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Kaja · Controla tu negocio desde el celular">
 <meta property="og:description" content="Ventas, gastos, inventario, fiado, corte de caja e impuestos. Un solo pago, sin mensualidades.">
-<meta property="og:image" content="img/og-icon.png">
+<meta property="og:image" content="https://usakaja.com/img/og-icon.jpg">
 <meta property="og:locale" content="es_MX">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="preload" as="image" href="img/inicio.avif" type="image/avif" fetchpriority="high">
 <link rel="stylesheet" href="estilo.css">
-<script src="config.js"></script>
+<script src="config.js" defer></script>
+<script src="sitio.js" defer></script>
 </head>
 <body>
 
@@ -37,7 +40,7 @@
 
 <header class="barra">
   <div class="cont">
-    <a class="marca" href="#"><img src="img/logo.png" alt="" width="36" height="36">Kaja</a>
+    <a class="marca" href="#"><img src="img/logo-72.webp" alt="" width="36" height="36" decoding="async">Kaja</a>
     <nav class="menu">
       <a href="#beneficios">Beneficios</a>
       <a href="#funciones">Funciones</a>
@@ -67,8 +70,8 @@
       </div>
     </div>
     <div class="escena" aria-hidden="true">
-      <div class="tel chico"><img src="img/registrar.webp" alt="" loading="eager"></div>
-      <div class="tel"><img src="img/inicio.webp" alt="" loading="eager"></div>
+      <div class="tel chico"><picture><source srcset="img/registrar.avif" type="image/avif"><img src="img/registrar.webp" alt="" width="390" height="844" decoding="async"></picture></div>
+      <div class="tel"><picture><source srcset="img/inicio.avif" type="image/avif"><img src="img/inicio.webp" alt="" width="390" height="844" decoding="async" fetchpriority="high"></picture></div>
       <div class="halo"></div>
     </div>
   </div>
@@ -112,7 +115,7 @@
     </div>
 
     <div class="funcion sube">
-      <div class="f-img"><div class="tel"><img src="img/inicio.webp" alt="Pantalla de inicio con la ganancia del mes" loading="lazy"></div></div>
+      <div class="f-img"><div class="tel"><picture><source srcset="img/inicio.avif" type="image/avif"><img src="img/inicio.webp" alt="Pantalla de inicio con la ganancia del mes" loading="lazy" width="390" height="844" decoding="async"></picture></div></div>
       <div class="f-txt">
         <div class="etiqueta">Tu negocio de un vistazo</div>
         <h2>Sabe cuánto ganas, hoy mismo</h2>
@@ -126,7 +129,7 @@
     </div>
 
     <div class="funcion sube">
-      <div class="f-img"><div class="tel"><img src="img/inventario.webp" alt="Inventario con existencias" loading="lazy"></div></div>
+      <div class="f-img"><div class="tel"><picture><source srcset="img/inventario.avif" type="image/avif"><img src="img/inventario.webp" alt="Inventario con existencias" loading="lazy" width="390" height="844" decoding="async"></picture></div></div>
       <div class="f-txt">
         <div class="etiqueta">Inventario</div>
         <h2>Tu mercancía bajo control</h2>
@@ -140,7 +143,7 @@
     </div>
 
     <div class="funcion sube">
-      <div class="f-img"><div class="tel"><img src="img/clientes.webp" alt="Clientes y fiado" loading="lazy"></div></div>
+      <div class="f-img"><div class="tel"><picture><source srcset="img/clientes.avif" type="image/avif"><img src="img/clientes.webp" alt="Clientes y fiado" loading="lazy" width="390" height="844" decoding="async"></picture></div></div>
       <div class="f-txt">
         <div class="etiqueta">Clientes y fiado</div>
         <h2>Cobra lo que te deben</h2>
@@ -154,7 +157,7 @@
     </div>
 
     <div class="funcion sube">
-      <div class="f-img"><div class="tel"><img src="img/impuestos.webp" alt="Cálculo estimado de impuestos" loading="lazy"></div></div>
+      <div class="f-img"><div class="tel"><picture><source srcset="img/impuestos.avif" type="image/avif"><img src="img/impuestos.webp" alt="Cálculo estimado de impuestos" loading="lazy" width="390" height="844" decoding="async"></picture></div></div>
       <div class="f-txt">
         <div class="etiqueta">Corte, reportes e impuestos</div>
         <h2>Cuentas claras con tu contador</h2>
@@ -168,7 +171,7 @@
     </div>
 
     <div class="funcion sube">
-      <div class="f-img"><div class="tel"><img src="img/candado.webp" alt="Bloqueo con contraseña" loading="lazy"></div></div>
+      <div class="f-img"><div class="tel"><picture><source srcset="img/candado.avif" type="image/avif"><img src="img/candado.webp" alt="Bloqueo con contraseña" loading="lazy" width="390" height="844" decoding="async"></picture></div></div>
       <div class="f-txt">
         <div class="etiqueta">Seguridad</div>
         <h2>Protegida con contraseña y Face ID</h2>
@@ -334,7 +337,7 @@
 <footer>
   <div class="cont">
     <div>
-      <a class="marca" href="#" style="margin-bottom:14px"><img src="img/logo.png" alt="" width="36" height="36">Kaja</a>
+      <a class="marca" href="#" style="margin-bottom:14px"><img src="img/logo-72.webp" alt="" width="36" height="36" decoding="async">Kaja</a>
       <p style="max-width:340px">La app para controlar tu negocio y tus finanzas desde el celular. Hecha en México.</p>
     </div>
     <div>
@@ -375,6 +378,5 @@
   </form>
 </div>
 
-<script src="sitio.js"></script>
 </body>
 </html>

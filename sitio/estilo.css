@@ -66,6 +66,7 @@ p{margin:0 0 1em}
 
 /* Teléfono */
 .tel{width:250px;aspect-ratio:390/844;border-radius:40px;padding:9px;background:linear-gradient(145deg,#2a3446,#0c121c);box-shadow:0 40px 80px -30px rgb(0 0 0 / .7),inset 0 0 0 1.5px rgb(255 255 255 / .12)}
+.tel picture{display:contents}
 .tel img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:32px}
 .tel.chico{width:220px}
 
@@ -211,6 +212,10 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgb(255 255 255 / .08);paddi
 .doc th,.doc td{text-align:left;border-bottom:1px solid var(--linea);padding:10px 8px;vertical-align:top}
 
 /* Aparecer al hacer scroll */
-.sube{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.sube.ver{opacity:1;transform:none}
+/* Solo se oculta si el JavaScript ya cargó: con internet lento el contenido se ve igual */
+.js .sube{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.js .sube.ver{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.sube{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+/* Velocidad: el celular no dibuja las secciones de abajo hasta que te acercas a ellas */
+main>section:not(.portada){content-visibility:auto;contain-intrinsic-size:auto 900px}
