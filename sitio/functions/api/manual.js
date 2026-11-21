@@ -10,7 +10,7 @@ export async function onRequestGet({ request, env }) {
   return new Response(pdf.body, {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": 'attachment; filename="Manual de uso - Caja del Negocio.pdf"',
+      "Content-Disposition": 'attachment; filename="Manual de uso - Kaja.pdf"',
       "Cache-Control": "private, no-store",
     },
   });

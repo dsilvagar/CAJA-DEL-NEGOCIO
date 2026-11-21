@@ -13,7 +13,7 @@
   });
 
   // Contacto
-  var waTxt = encodeURIComponent("Hola, me interesa Caja del Negocio");
+  var waTxt = encodeURIComponent("Hola, me interesa Kaja");
   document.querySelectorAll("[data-wa]").forEach(function (a) {
     a.href = "https://wa.me/" + C.whatsapp + "?text=" + waTxt; a.target = "_blank"; a.rel = "noopener";
   });

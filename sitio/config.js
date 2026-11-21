@@ -4,14 +4,14 @@
     functions/_lib/planes.js; mantenlos iguales.)
    ============================================================ */
 window.SITIO = {
-  nombre: "Caja del Negocio",
+  nombre: "Kaja",
   // WhatsApp con lada de país, sin espacios ni "+". Ej: 5215512345678
   whatsapp: "521XXXXXXXXXX",
-  correo: "hola@cajadelnegocio.mx",
+  correo: "hola@kaja.mx",
   // Para el aviso de privacidad
   responsable: "[NOMBRE COMPLETO DEL RESPONSABLE]",
   domicilio: "[CALLE, NÚMERO, COLONIA, CIUDAD, ESTADO, C.P.], México",
-  dominio: "cajadelnegocio.mx",
+  dominio: "kaja.mx",
   actualizado: "20 de noviembre de 2026",
   // Precio de lanzamiento (el que se cobra) y precio normal (tachado)
   planes: {

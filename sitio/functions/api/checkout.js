@@ -30,7 +30,7 @@ export async function onRequestPost({ request, env }) {
       },
       auto_return: "approved",
       notification_url: `${base}/api/webhook`,
-      statement_descriptor: "CAJA DEL NEGOCIO",
+      statement_descriptor: "KAJA",
       binary_mode: false,
     });
     const url = env.MP_SANDBOX === "1" ? (pref.sandbox_init_point || pref.init_point) : pref.init_point;

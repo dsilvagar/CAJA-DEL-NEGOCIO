@@ -1,4 +1,4 @@
-# Página de venta de Caja del Negocio
+# Página de venta de Kaja
 
 Sitio estático + funciones de Cloudflare Pages que cobran con Mercado Pago y
 entregan la app automáticamente (correo con link, licencia y manual).
@@ -33,7 +33,7 @@ entregan la app automáticamente (correo con link, licencia y manual).
 Es idempotente: si Mercado Pago avisa varias veces, la licencia es la misma
 (sale del número de pago) y el correo se manda una sola vez.
 
-Licencias: `CAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
+Licencias: `KAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
 (P Personal, N Negocio, X Plus) y los últimos 4 son una firma HMAC con
 `LICENSE_SECRET`, para que la app pueda validarlas sin internet más adelante.
 
@@ -49,12 +49,12 @@ Licencias: `CAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
 | `MP_ACCESS_TOKEN` | Mercado Pago → Tus integraciones → tu app → Credenciales de producción → Access Token |
 | `MP_WEBHOOK_SECRET` | Mercado Pago → tu app → Webhooks → Firma secreta |
 | `RESEND_API_KEY` | resend.com → API Keys |
-| `EMAIL_FROM` | `Caja del Negocio <ventas@cajadelnegocio.mx>` (dominio verificado en Resend) |
+| `EMAIL_FROM` | `Kaja <ventas@kaja.mx>` (dominio verificado en Resend) |
 | `REPLY_TO` | correo donde quieres recibir respuestas de clientes |
 | `ADMIN_EMAIL` | tu correo, para el aviso de cada venta |
 | `LICENSE_SECRET` | una frase larga al azar; **no la cambies después** |
 | `APP_URL` | link que se entrega para instalar la app |
-| `SITE_URL` | `https://cajadelnegocio.mx` |
+| `SITE_URL` | `https://kaja.mx` |
 | `SOPORTE_WHATSAPP` | `5215512345678` |
 | `MP_SANDBOX` | `1` solo para probar con credenciales de prueba |
 

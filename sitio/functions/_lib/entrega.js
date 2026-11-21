@@ -38,7 +38,7 @@ export async function entregar(env, sitioUrl, pago) {
   try {
     await mandarCorreo(env, {
       to: correo,
-      subject: `Tu app Caja del Negocio está lista (plan ${planId[0].toUpperCase() + planId.slice(1)})`,
+      subject: `Tu app Kaja está lista (plan ${planId[0].toUpperCase() + planId.slice(1)})`,
       html: correoCliente(env, registro, plan),
     });
     registro.correoEnviado = true;
@@ -80,7 +80,7 @@ function correoCliente(env, r, plan) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3efe4;padding:24px 12px"><tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:20px;overflow:hidden">
 <tr><td style="background:#0b1a2e;padding:28px 28px 24px;text-align:center">
-  <div style="color:#f3d77a;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Caja del Negocio</div>
+  <div style="color:#f3d77a;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Kaja</div>
   <div style="color:#ffffff;font-size:24px;font-weight:800;margin-top:8px">¡Gracias por tu compra${r.nombre ? ", " + esc(r.nombre.split(" ")[0]) : ""}!</div>
   <div style="color:#c9d3e3;font-size:15px;margin-top:6px">${esc(plan.nombre)} · pago único</div>
 </td></tr>
@@ -99,7 +99,7 @@ function correoCliente(env, r, plan) {
   <p style="font-size:14px;color:#5b6576;margin:0">¿Dudas? ${wa ? `Escríbenos por <a href="${esc(wa)}" style="color:#1d3a6b">WhatsApp</a> o r` : "R"}esponde a este correo y te ayudamos.</p>
 </td></tr>
 <tr><td style="background:#faf7ef;padding:16px 28px;font-size:12px;color:#5b6576">
-  Folio de pago: ${esc(r.pago)} · Este correo se envió automáticamente porque compraste Caja del Negocio.
+  Folio de pago: ${esc(r.pago)} · Este correo se envió automáticamente porque compraste Kaja.
   Tus datos no se comparten con nadie. Consulta nuestro aviso de privacidad en el sitio.
 </td></tr></table></td></tr></table></body></html>`;
 }

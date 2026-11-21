@@ -1,4 +1,4 @@
-// Códigos de licencia: CAJA-N7KQ-4MZP-X2HD
+// Códigos de licencia: KAJA-N7KQ-4MZP-X2HD
 // Los últimos 4 caracteres son una firma (HMAC) para que más adelante la app
 // pueda comprobar el código sin internet usando el mismo LICENSE_SECRET.
 const ALFA = "23456789ABCDEFGHJKMNPQRSTUVWXYZ"; // sin 0, O, 1, I, L
@@ -21,11 +21,11 @@ export async function nuevaLicencia(secreto, letra, semilla) {
   const cuerpo = letra + (semilla ? (await firma(secreto, "pago:" + semilla, 7)) : azar(7));
   const f = await firma(secreto, cuerpo);
   const t = cuerpo + f; // 12 caracteres
-  return `CAJA-${t.slice(0, 4)}-${t.slice(4, 8)}-${t.slice(8, 12)}`;
+  return `KAJA-${t.slice(0, 4)}-${t.slice(4, 8)}-${t.slice(8, 12)}`;
 }
 
 export async function licenciaValida(secreto, codigo) {
-  const m = /^CAJA-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})$/.exec(String(codigo || "").toUpperCase().trim());
+  const m = /^KAJA-([A-Z0-9]{4})-([A-Z0-9]{4})-([A-Z0-9]{4})$/.exec(String(codigo || "").toUpperCase().trim());
   if (!m) return false;
   const t = m[1] + m[2] + m[3];
   return (await firma(secreto, t.slice(0, 8))) === t.slice(8);
