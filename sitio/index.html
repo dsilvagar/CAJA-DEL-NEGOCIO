@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kaja · La app para controlar tu negocio desde el celular</title>
+<meta name="description" content="Registra ventas y gastos, controla tu inventario, el fiado, el corte de caja y tus impuestos desde el celular. Un solo pago, sin mensualidades. Hecha en México.">
+<meta name="theme-color" content="#0b1a2e">
+<link rel="icon" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kaja · Controla tu negocio desde el celular">
+<meta property="og:description" content="Ventas, gastos, inventario, fiado, corte de caja e impuestos. Un solo pago, sin mensualidades.">
+<meta property="og:image" content="img/og-icon.png">
+<meta property="og:locale" content="es_MX">
+<link rel="stylesheet" href="estilo.css">
+<script src="config.js"></script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ok" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-pago" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.5-.9-1.6-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2.1 0 3 5.8 1.5 5.8 4.3 0 1.3-1.3 2.1-3 2.1-1.3 0-2.5-.6-3-1.6M12 6.3v1.5M12 16.4v1.4"/></g></symbol>
+  <symbol id="i-sin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9a10 10 0 0 1 16 0M7 12.5a6 6 0 0 1 10 0M10.3 15.8a2 2 0 0 1 3.4 0"/><path d="M3 3l18 18"/></g></symbol>
+  <symbol id="i-candado" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5M12 14.5v2"/></g></symbol>
+  <symbol id="i-mx" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+  <symbol id="i-control" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g></symbol>
+  <symbol id="i-finanzas" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></g></symbol>
+  <symbol id="i-tiempo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+  <symbol id="i-caja" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></g></symbol>
+  <symbol id="i-gente" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5a5 5 0 0 1 4.5 5"/></g></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></g></symbol>
+  <symbol id="i-cel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></g></symbol>
+  <symbol id="i-correo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></g></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4a.5.5 0 0 0 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></symbol>
+</svg>
+
+<header class="barra">
+  <div class="cont">
+    <a class="marca" href="#"><img src="img/logo.png" alt="" width="36" height="36">Kaja</a>
+    <nav class="menu">
+      <a href="#beneficios">Beneficios</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#como">Cómo funciona</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="btn btn-oro" href="#precios">Comprar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- PORTADA -->
+<section class="portada oscuro">
+  <div class="cont">
+    <div>
+      <div class="etiqueta">Hecha en México para tu negocio</div>
+      <h1>Toma el control de tu negocio <span class="dorado">desde tu celular</span></h1>
+      <p class="sub">Registra ventas y gastos en segundos, sabe cuánto ganas de verdad, controla tu inventario, lo que te deben y tu corte de caja. Todo en una app sencilla, con <b>un solo pago y sin mensualidades</b>.</p>
+      <div class="acciones">
+        <a class="btn btn-oro" href="#precios">Quiero mi app</a>
+        <a class="btn btn-linea" href="#funciones">Ver cómo funciona</a>
+      </div>
+      <div class="mini-confianza">
+        <span><svg><use href="#i-pago"/></svg>Pago único</span>
+        <span><svg><use href="#i-cel"/></svg>iPhone y Android</span>
+        <span><svg><use href="#i-correo"/></svg>Te llega al instante a tu correo</span>
+      </div>
+    </div>
+    <div class="escena" aria-hidden="true">
+      <div class="tel chico"><img src="img/registrar.webp" alt="" loading="eager"></div>
+      <div class="tel"><img src="img/inicio.webp" alt="" loading="eager"></div>
+      <div class="halo"></div>
+    </div>
+  </div>
+</section>
+
+<div class="franja">
+  <div class="cont">
+    <div><svg><use href="#i-pago"/></svg>Un solo pago, tuya para siempre</div>
+    <div><svg><use href="#i-sin"/></svg>Funciona sin internet</div>
+    <div><svg><use href="#i-candado"/></svg>Tus datos no se comparten</div>
+    <div><svg><use href="#i-mx"/></svg>En pesos, con IVA e ISR de México</div>
+  </div>
+</div>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Beneficios</div>
+      <h2>Lo que cambia en tu negocio desde el primer día</h2>
+      <p>Deja la libreta y las cuentas de memoria. Kaja te dice en todo momento cuánto entra, cuánto sale y cuánto te queda.</p>
+    </div>
+    <div class="rejilla">
+      <div class="tarjeta sube"><div class="icono"><svg><use href="#i-control"/></svg></div><h3>Controla mejor tu negocio</h3><p>Ve tus ventas, gastos y ganancia del día, la semana o el mes en una sola pantalla. Decide con números, no con corazonadas.</p></div>
+      <div class="tarjeta sube"><div class="icono"><svg><use href="#i-finanzas"/></svg></div><h3>Lleva mejor tus finanzas</h3><p>Separa el dinero del negocio del personal, aparta para la renta y los gastos fijos y descubre a dónde se va tu dinero.</p></div>
+      <div class="tarjeta sube"><div class="icono"><svg><use href="#i-pago"/></svg></div><h3>Un solo pago, sin mensualidades</h3><p>Pagas una vez y es tuya. Sin cobros cada mes, sin sorpresas en tu tarjeta. Eliges el plan que va con tus necesidades.</p></div>
+      <div class="tarjeta sube"><div class="icono"><svg><use href="#i-tiempo"/></svg></div><h3>Ahorra horas cada semana</h3><p>Anota una venta en 3 toques, haz el corte de caja en un minuto y saca reportes en PDF o Excel listos para tu contador.</p></div>
+      <div class="tarjeta sube"><div class="icono"><svg><use href="#i-caja"/></svg></div><h3>Que no se te pierda nada</h3><p>Inventario con existencias, clientes que te deben (el fiado), recordatorios de pagos y un historial que nadie puede borrar.</p></div>
+      <div class="tarjeta sube"><div class="icono"><svg><use href="#i-candado"/></svg></div><h3>Tu información es tuya</h3><p>Tus datos se guardan en tu celular, protegidos con contraseña o Face ID. No vendemos ni compartimos tu información con nadie.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNCIONES -->
+<section id="funciones" style="background:#fff">
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Funciones</div>
+      <h2>Todo lo que tu negocio necesita, en una app</h2>
+      <p>Activa solo lo que usas. La app se adapta a tu giro, sea una tienda, un restaurante o un taller.</p>
+    </div>
+
+    <div class="funcion sube">
+      <div class="f-img"><div class="tel"><img src="img/inicio.webp" alt="Pantalla de inicio con la ganancia del mes" loading="lazy"></div></div>
+      <div class="f-txt">
+        <div class="etiqueta">Tu negocio de un vistazo</div>
+        <h2>Sabe cuánto ganas, hoy mismo</h2>
+        <p>Al abrir la app ves la ganancia del mes, lo que entró, lo que salió y cuánto tienes en tus cuentas.</p>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Gastos fijos por pagar con aviso de atraso</li>
+          <li><svg><use href="#i-ok"/></svg>Gráfica de a dónde se va tu dinero</li>
+          <li><svg><use href="#i-ok"/></svg>Efectivo, tarjeta, transferencia y terminal con su comisión</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="funcion sube">
+      <div class="f-img"><div class="tel"><img src="img/inventario.webp" alt="Inventario con existencias" loading="lazy"></div></div>
+      <div class="f-txt">
+        <div class="etiqueta">Inventario</div>
+        <h2>Tu mercancía bajo control</h2>
+        <p>Da de alta tus productos y la app descuenta las existencias con cada venta. Te avisa cuando algo se está acabando.</p>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Entradas, salidas y existencias al momento</li>
+          <li><svg><use href="#i-ok"/></svg>Alertas de producto bajo</li>
+          <li><svg><use href="#i-ok"/></svg>Lee tus tickets con la cámara para no teclear</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="funcion sube">
+      <div class="f-img"><div class="tel"><img src="img/clientes.webp" alt="Clientes y fiado" loading="lazy"></div></div>
+      <div class="f-txt">
+        <div class="etiqueta">Clientes y fiado</div>
+        <h2>Cobra lo que te deben</h2>
+        <p>Anota lo que fías y los abonos de cada cliente. Sabe en todo momento quién te debe y cuánto.</p>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Saldo por cliente con historial</li>
+          <li><svg><use href="#i-ok"/></svg>Notas, recibos y cotizaciones en PDF con tu logo</li>
+          <li><svg><use href="#i-ok"/></svg>Compártelos por WhatsApp en un toque</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="funcion sube">
+      <div class="f-img"><div class="tel"><img src="img/impuestos.webp" alt="Cálculo estimado de impuestos" loading="lazy"></div></div>
+      <div class="f-txt">
+        <div class="etiqueta">Corte, reportes e impuestos</div>
+        <h2>Cuentas claras con tu contador</h2>
+        <p>Haz tu corte de caja diario, revisa tu estado de resultados y ve un cálculo estimado de IVA e ISR según tu régimen (RESICO, Actividad Empresarial y más).</p>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Corte de caja con diferencias</li>
+          <li><svg><use href="#i-ok"/></svg>Reportes en PDF y Excel</li>
+          <li><svg><use href="#i-ok"/></svg>Presupuesto por categoría</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="funcion sube">
+      <div class="f-img"><div class="tel"><img src="img/candado.webp" alt="Bloqueo con contraseña" loading="lazy"></div></div>
+      <div class="f-txt">
+        <div class="etiqueta">Seguridad</div>
+        <h2>Protegida con contraseña y Face ID</h2>
+        <p>Pon contraseña a toda la app o solo a las secciones que quieras. Si un empleado usa el celular, no verá lo que no debe.</p>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Contraseña de 4 o 6 dígitos y Face ID</li>
+          <li><svg><use href="#i-ok"/></svg>Historial de cambios que nadie puede borrar</li>
+          <li><svg><use href="#i-ok"/></svg>Respaldo y sincronización entre tus celulares</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="chips sube">
+      <span>Nómina y checador</span><span>Préstamos a empleados</span><span>Varias sucursales</span><span>Recordatorios y tareas</span><span>Finanzas personales</span><span>Cuentas en dólares</span><span>Tu logo en la app</span><span>7 idiomas</span><span>22 monedas</span><span>Modo oscuro</span>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como" class="oscuro">
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Cómo funciona</div>
+      <h2>La tienes en tu celular en 5 minutos</h2>
+      <p>No tienes que esperar a nadie. Todo es automático.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso sube"><h3>Elige tu plan y paga</h3><p>Paga de forma segura con Mercado Pago: tarjeta de crédito o débito, OXXO, transferencia o saldo de Mercado Pago.</p></div>
+      <div class="paso sube"><h3>Recibe tu acceso al instante</h3><p>En cuanto se confirma tu pago te llega un correo con tu link de descarga, tu código de licencia y tu manual de uso.</p></div>
+      <div class="paso sube"><h3>Instálala y empieza</h3><p>Abre el link en tu celular, agrégala a tu pantalla de inicio y en minutos estás registrando tu primera venta.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARACIÓN -->
+<section>
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Pago único</div>
+      <h2>Deja de pagar mensualidades</h2>
+      <p>Muchas apps para negocio cobran cada mes. Con Kaja pagas una vez.</p>
+    </div>
+    <div class="compara">
+      <div class="tarjeta mal sube"><h3>App con mensualidad <small style="color:var(--gris);font-weight:500">ejemplo de $199 al mes</small></h3><div class="monto">$7,164</div><p>lo que pagarías en 3 años, y sigues pagando.</p></div>
+      <div class="tarjeta bien sube"><h3>Kaja <small style="color:var(--gris);font-weight:500">plan Negocio</small></h3><div class="monto" data-precio="negocio">$499</div><p>una sola vez. Es tuya para siempre.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section id="precios" class="oscuro">
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Precios de lanzamiento</div>
+      <h2>Un solo pago, acorde a tus necesidades</h2>
+      <p>Sin mensualidades, sin letras chiquitas. Precios en pesos mexicanos con IVA incluido.</p>
+    </div>
+    <div class="precios">
+      <div class="plan sube">
+        <h3>Personal</h3>
+        <p class="para">Para llevar tus finanzas personales y las de tu familia.</p>
+        <div class="precio"><b data-precio="personal">$199</b><s data-normal="personal">$299</s></div>
+        <div class="unico">Pago único · MXN</div>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Ingresos, gastos y cuentas</li>
+          <li><svg><use href="#i-ok"/></svg>Gastos fijos y apartados</li>
+          <li><svg><use href="#i-ok"/></svg>Presupuesto y recordatorios</li>
+          <li><svg><use href="#i-ok"/></svg>Contraseña y Face ID</li>
+          <li><svg><use href="#i-ok"/></svg>Hasta 3 dispositivos</li>
+        </ul>
+        <button class="btn btn-marino" data-comprar="personal">Comprar Personal</button>
+      </div>
+      <div class="plan destacado sube">
+        <div class="cinta">El más elegido</div>
+        <h3>Negocio</h3>
+        <p class="para">Todo para controlar un negocio: ventas, inventario, fiado y corte.</p>
+        <div class="precio"><b data-precio="negocio">$499</b><s data-normal="negocio">$799</s></div>
+        <div class="unico">Pago único · MXN</div>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Todo lo del plan Personal</li>
+          <li><svg><use href="#i-ok"/></svg>Ventas, gastos y terminal</li>
+          <li><svg><use href="#i-ok"/></svg>Inventario y clientes con fiado</li>
+          <li><svg><use href="#i-ok"/></svg>Corte de caja y reportes PDF/Excel</li>
+          <li><svg><use href="#i-ok"/></svg>Notas, recibos y cotizaciones</li>
+          <li><svg><use href="#i-ok"/></svg>Impuestos estimados y nómina</li>
+          <li><svg><use href="#i-ok"/></svg>Respaldo en la nube · 3 dispositivos</li>
+        </ul>
+        <button class="btn btn-oro" data-comprar="negocio">Comprar Negocio</button>
+      </div>
+      <div class="plan sube">
+        <h3>Plus</h3>
+        <p class="para">Para negocios con varias sucursales o socios.</p>
+        <div class="precio"><b data-precio="plus">$999</b><s data-normal="plus">$1,499</s></div>
+        <div class="unico">Pago único · MXN</div>
+        <ul>
+          <li><svg><use href="#i-ok"/></svg>Todo lo del plan Negocio</li>
+          <li><svg><use href="#i-ok"/></svg>Varias sucursales o libretas</li>
+          <li><svg><use href="#i-ok"/></svg>Sincronización entre celulares</li>
+          <li><svg><use href="#i-ok"/></svg>Hasta 6 dispositivos</li>
+          <li><svg><use href="#i-ok"/></svg>Soporte prioritario por WhatsApp</li>
+        </ul>
+        <button class="btn btn-marino" data-comprar="plus">Comprar Plus</button>
+      </div>
+    </div>
+    <p class="nota-precios">Pago seguro procesado por Mercado Pago. Nosotros nunca vemos ni guardamos los datos de tu tarjeta.</p>
+    <div class="pagos"><span>VISA</span><span>Mastercard</span><span>American Express</span><span>OXXO</span><span>Transferencia SPEI</span><span>Mercado Pago</span></div>
+  </div>
+</section>
+
+<!-- GIROS -->
+<section>
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Para quién es</div>
+      <h2>Hecha para negocios como el tuyo</h2>
+    </div>
+    <div class="giros sube">
+      <div><i>🏪</i>Tiendas y abarrotes</div>
+      <div><i>🥩</i>Carnicerías y pollerías</div>
+      <div><i>🌮</i>Restaurantes y fondas</div>
+      <div><i>💇</i>Estéticas y barberías</div>
+      <div><i>🔧</i>Talleres y servicios</div>
+      <div><i>👗</i>Ropa y boutiques</div>
+      <div><i>🥖</i>Panaderías y cafeterías</div>
+      <div><i>💼</i>Profesionistas y freelancers</div>
+    </div>
+  </div>
+</section>
+
+<!-- PREGUNTAS -->
+<section id="preguntas" style="background:#fff">
+  <div class="cont">
+    <div class="titulo centro sube">
+      <div class="etiqueta">Preguntas frecuentes</div>
+      <h2>Resolvemos tus dudas</h2>
+    </div>
+    <div class="faq">
+      <details><summary>¿De verdad es un solo pago?</summary><p>Sí. Pagas una vez y la app es tuya. No hay mensualidades ni cobros automáticos a tu tarjeta. Las mejoras de la versión que compraste te llegan sin costo.</p></details>
+      <details><summary>¿Cómo recibo la app después de pagar?</summary><p>En cuanto Mercado Pago confirma tu pago, te llega un correo automático con tu link de descarga, tu código de licencia y tu manual de uso en PDF. También lo ves en pantalla al terminar de pagar. Si pagas en OXXO o por transferencia, te llega en cuanto se acredite el pago.</p></details>
+      <details><summary>¿Funciona en iPhone y en Android?</summary><p>Sí. Funciona en iPhone, Android, tablets y computadora. Se instala desde el navegador con "Agregar a pantalla de inicio" y queda como cualquier otra app.</p></details>
+      <details><summary>¿Necesito internet?</summary><p>No. Puedes registrar ventas y gastos sin internet. Solo lo necesitas para instalarla la primera vez y, si quieres, para respaldar o sincronizar entre celulares.</p></details>
+      <details><summary>¿Quién puede ver mis datos?</summary><p>Solo tú. Tu información se guarda en tu propio celular. Si activas el respaldo en la nube, se guarda cifrada en tu cuenta y no la vendemos ni la compartimos con nadie. Lee nuestro <a href="privacidad.html">aviso de privacidad</a>.</p></details>
+      <details><summary>¿Puedo usarla en varios celulares?</summary><p>Sí. Los planes Personal y Negocio incluyen hasta 3 dispositivos y el plan Plus hasta 6, por ejemplo tu celular, el de tu socio y la tablet del mostrador.</p></details>
+      <details><summary>¿Sirve para hacer facturas del SAT?</summary><p>La app no timbra facturas (CFDI). Sí te da notas de venta, recibos y cotizaciones en PDF, un cálculo estimado de IVA e ISR y reportes en Excel que le facilitan el trabajo a tu contador.</p></details>
+      <details><summary>¿Puedo cambiar de plan después?</summary><p>Sí. Escríbenos y solo pagas la diferencia entre tu plan y el nuevo.</p></details>
+      <details><summary>¿Y si necesito ayuda?</summary><p>Con tu compra recibes el manual de uso completo con imágenes. Si tienes dudas, escríbenos por WhatsApp o por correo y te ayudamos.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="oscuro cierre">
+  <div class="cont">
+    <div class="titulo centro">
+      <h2>Tu negocio merece <span class="dorado">cuentas claras</span></h2>
+      <p>Empieza hoy. Un solo pago y la tienes en tu celular en minutos.</p>
+    </div>
+    <a class="btn btn-oro" href="#precios">Ver planes y precios</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="cont">
+    <div>
+      <a class="marca" href="#" style="margin-bottom:14px"><img src="img/logo.png" alt="" width="36" height="36">Kaja</a>
+      <p style="max-width:340px">La app para controlar tu negocio y tus finanzas desde el celular. Hecha en México.</p>
+    </div>
+    <div>
+      <h4>Producto</h4>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#precios">Precios</a>
+      <a href="#preguntas">Preguntas frecuentes</a>
+    </div>
+    <div>
+      <h4>Contacto y legal</h4>
+      <a data-wa href="#">WhatsApp</a>
+      <a data-correo href="#">Correo</a>
+      <a href="privacidad.html">Aviso de privacidad</a>
+      <a href="terminos.html">Términos y condiciones</a>
+    </div>
+    <div class="legal">© <span data-anio>2026</span> Kaja. Todos los derechos reservados. Los pagos son procesados por Mercado Pago.</div>
+  </div>
+</footer>
+
+<a class="wa" data-wa href="#" aria-label="Escríbenos por WhatsApp"><svg><use href="#i-wa"/></svg></a>
+
+<!-- Ventana de compra -->
+<div class="velo" id="velo" role="dialog" aria-modal="true" aria-labelledby="cTitulo">
+  <form class="compra" id="fCompra" novalidate>
+    <button type="button" class="cerrar" id="cCerrar" aria-label="Cerrar">×</button>
+    <h3 id="cTitulo">Comprar plan <span id="cPlan">Negocio</span></h3>
+    <p style="color:var(--gris);margin:0">A este correo te enviaremos tu link de descarga, tu licencia y tu manual.</p>
+    <div class="resumen"><span>Total, pago único</span><b id="cPrecio">$499 MXN</b></div>
+    <label for="cNombre">Tu nombre</label>
+    <input type="text" id="cNombre" autocomplete="name" required maxlength="80" placeholder="Ej. María López">
+    <label for="cCorreo">Tu correo electrónico</label>
+    <input type="email" id="cCorreo" autocomplete="email" required maxlength="120" placeholder="tucorreo@ejemplo.com">
+    <label class="acepto"><input type="checkbox" id="cAcepto" required> <span>Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y el <a href="privacidad.html" target="_blank">aviso de privacidad</a>.</span></label>
+    <div class="error" id="cError"></div>
+    <button class="btn btn-oro" id="cPagar" type="submit">Continuar al pago seguro</button>
+    <div class="seguro"><svg><use href="#i-candado"/></svg>Pago protegido por Mercado Pago</div>
+  </form>
+</div>
+
+<script src="sitio.js"></script>
+</body>
+</html>

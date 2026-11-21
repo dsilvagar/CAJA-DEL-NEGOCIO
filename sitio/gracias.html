@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Tu compra · Kaja</title>
+<meta name="theme-color" content="#0b1a2e">
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="estilo.css">
+<script src="config.js"></script>
+<style>
+  body{background:var(--marino)}
+  .gr{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 16px}
+  .gr .compra{border-radius:24px;max-width:500px;text-align:center}
+  .gr .estado-ico{width:72px;height:72px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;font-size:36px}
+  .lic{font:800 22px Menlo,Consolas,monospace;letter-spacing:.06em;background:var(--crema);border:1px solid var(--linea);border-radius:14px;padding:14px;margin:8px 0 4px;word-break:break-all}
+  .inst{text-align:left;background:var(--crema);border-radius:14px;padding:16px 18px;font-size:15px;margin-top:18px}
+  .inst p{margin:0 0 8px}
+  .girar{width:46px;height:46px;border-radius:50%;border:4px solid var(--linea);border-top-color:var(--oro);animation:g 1s linear infinite;margin:10px auto 18px}
+  @keyframes g{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="gr">
+  <div class="compra" id="caja">
+    <a class="marca" href="./" style="justify-content:center;color:var(--tinta);margin-bottom:18px"><img src="img/logo.png" alt="" width="36" height="36">Kaja</a>
+    <div id="cargando"><div class="girar"></div><h3>Confirmando tu pago…</h3><p style="color:var(--gris)">Esto tarda unos segundos.</p></div>
+    <div id="listo" hidden>
+      <div class="estado-ico" style="background:#e6f4ec">✅</div>
+      <h3>¡Pago confirmado!</h3>
+      <p style="color:var(--gris)">Te enviamos todo a <b id="lCorreo"></b>. Si no lo ves, revisa tu carpeta de spam o promociones.</p>
+      <a class="btn btn-oro" id="lApp" href="#" style="width:100%">Abrir mi app</a>
+      <p style="margin:18px 0 0;font-size:14px;color:var(--gris)">Tu código de licencia</p>
+      <div class="lic" id="lLic"></div>
+      <a class="btn btn-marino" id="lManual" href="#" style="width:100%;margin-top:14px">Descargar manual de uso (PDF)</a>
+      <div class="inst">
+        <p><b>iPhone:</b> abre el link en Safari, toca Compartir y elige "Agregar a pantalla de inicio".</p>
+        <p style="margin:0"><b>Android:</b> abre el link en Chrome, toca el menú ⋮ y elige "Instalar app".</p>
+      </div>
+    </div>
+    <div id="pendiente" hidden>
+      <div class="estado-ico" style="background:#fff6dc">⏳</div>
+      <h3>Tu pago está en proceso</h3>
+      <p style="color:var(--gris)">Si pagaste en OXXO o por transferencia, puede tardar desde unos minutos hasta 2 días hábiles. En cuanto se acredite te llega automáticamente un correo con tu app, tu licencia y tu manual. No tienes que hacer nada más.</p>
+      <a class="btn btn-marino" href="./" style="width:100%">Volver al inicio</a>
+    </div>
+    <div id="fallo" hidden>
+      <div class="estado-ico" style="background:#fdeaea">✖️</div>
+      <h3>El pago no se completó</h3>
+      <p style="color:var(--gris)">No se hizo ningún cargo. Puedes intentarlo de nuevo con otra tarjeta u otro método de pago.</p>
+      <a class="btn btn-oro" href="./#precios" style="width:100%">Intentar de nuevo</a>
+    </div>
+    <p style="font-size:14px;color:var(--gris);margin:22px 0 0">¿Necesitas ayuda? <a data-wa href="#">Escríbenos por WhatsApp</a></p>
+  </div>
+</div>
+<script>
+(function(){
+  var C = window.SITIO || {};
+  document.querySelectorAll("[data-wa]").forEach(function(a){ a.href = "https://wa.me/" + C.whatsapp; a.target = "_blank"; });
+  var q = new URLSearchParams(location.search);
+  var pago = q.get("payment_id") || q.get("collection_id");
+  var ref = q.get("external_reference");
+  var st = q.get("status") || q.get("collection_status");
+  function ver(id){ ["cargando","listo","pendiente","fallo"].forEach(function(x){ document.getElementById(x).hidden = x !== id; }); }
+  if (!pago || pago === "null" || st === "rejected" || st === "null") return ver(st === "pending" || st === "in_process" ? "pendiente" : "fallo");
+  var intentos = 0;
+  function preguntar(){
+    intentos++;
+    fetch("/api/estado?pago=" + encodeURIComponent(pago) + "&ref=" + encodeURIComponent(ref || ""))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.estado === "approved" && d.licencia) {
+          document.getElementById("lCorreo").textContent = d.correo || "tu correo";
+          document.getElementById("lApp").href = d.app;
+          document.getElementById("lLic").textContent = d.licencia;
+          document.getElementById("lManual").href = d.manual;
+          return ver("listo");
+        }
+        if (d.estado === "rejected" || d.estado === "cancelled") return ver("fallo");
+        if (intentos < 8) return setTimeout(preguntar, 3000);
+        ver("pendiente");
+      })
+      .catch(function(){ if (intentos < 8) setTimeout(preguntar, 3000); else ver("pendiente"); });
+  }
+  preguntar();
+})();
+</script>
+</body>
+</html>
