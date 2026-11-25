@@ -1,4 +1,5 @@
 import { guardarPedido, mandarCorreo, entregar } from "./entrega.js";
+import { BANCO } from "./banco.js";
 
 // Transferencia SPEI directa a tu CLABE. No hay comisión, pero el banco no avisa a la página:
 // tú confirmas cada pago con un botón que te llega por correo, y la licencia sale sola.
@@ -7,7 +8,11 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const dinero = (n) => "$" + Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2 });
 
 export function datosBanco(env) {
-  return { clabe: env.SPEI_CLABE, banco: env.SPEI_BANCO || "", beneficiario: env.SPEI_BENEFICIARIO || "" };
+  return {
+    clabe: env.SPEI_CLABE || BANCO.clabe,
+    banco: env.SPEI_BANCO || BANCO.banco,
+    beneficiario: env.SPEI_BENEFICIARIO || BANCO.beneficiario,
+  };
 }
 
 export async function tokenAprobar(env, ref) {

@@ -65,9 +65,11 @@ Licencias: `KAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
 | `PAYPAL_SECRET` | La misma app → Secret |
 | `PAYPAL_SANDBOX` | `1` solo para probar con cuentas de prueba |
 | **Transferencia SPEI** | |
-| `SPEI_CLABE` | Tu CLABE de 18 dígitos |
-| `SPEI_BANCO` | Nombre del banco |
-| `SPEI_BENEFICIARIO` | Nombre del titular de la cuenta, tal como aparece en el banco |
+| `SPEI_CLABE` | Opcional: ya está en `functions/_lib/banco.js`. Solo si quieres cambiarla sin tocar el código |
+| `SPEI_BANCO` | Opcional (igual que arriba) |
+| `SPEI_BENEFICIARIO` | Opcional (igual que arriba) |
+
+SPEI se activa solo cuando la CLABE pasa el dígito verificador y ya están `ADMIN_EMAIL` y `RESEND_API_KEY` (para mandar los datos al cliente y el botón de aprobar a ti).
 
 Cada forma de pago aparece en la página **solo cuando sus llaves están cargadas**
 (`/api/metodos`). El orden se cambia en `config.js` (`metodos`).
