@@ -16,6 +16,9 @@ window.SITIO = {
   domicilio: "Guadalajara, Jalisco, México",
   dominio: "usakaja.com",
   actualizado: "20 de noviembre de 2026",
+  // Formas de pago (en este orden). La página solo muestra las que ya tienen
+  // sus llaves cargadas en Cloudflare.
+  metodos: ["stripe", "paypal", "mp", "spei"],
   // Precio de lanzamiento (el que se cobra) y precio normal (tachado)
   planes: {
     personal: { precio: 199, normal: 299 },

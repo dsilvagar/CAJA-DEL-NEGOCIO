@@ -1,5 +1,5 @@
 import { sitio } from "../_lib/planes.js";
-import { leerPago, firmaValida } from "../_lib/mercadopago.js";
+import { leerPago, firmaValida, traducirPago } from "../_lib/mercadopago.js";
 import { entregar } from "../_lib/entrega.js";
 
 // Mercado Pago avisa aquí cada vez que un pago se crea o cambia.
@@ -18,7 +18,7 @@ export async function onRequestPost({ request, env }) {
   try {
     const pago = await leerPago(env, id);
     if (!pago) return new Response("no existe", { status: 200 });
-    const r = await entregar(env, sitio(env, request), pago);
+    const r = await entregar(env, sitio(env, request), traducirPago(pago));
     return new Response(r.licencia ? "entregado" : `estado ${r.estado}`, { status: 200 });
   } catch (e) {
     console.error("webhook", e);
