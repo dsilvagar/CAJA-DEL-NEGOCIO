@@ -1,6 +1,6 @@
 # Página de venta de Kaja
 
-Sitio estático + funciones de Cloudflare Pages que cobran con Mercado Pago y
+Sitio estático + funciones de Cloudflare Pages que cobran con Stripe, PayPal, Mercado Pago o SPEI y
 entregan la app automáticamente (correo con link, licencia y manual).
 
 ## Archivos
@@ -57,6 +57,31 @@ Licencias: `KAJA-XXXX-XXXX-XXXX`. El primer carácter indica el plan
 | `SITE_URL` | `https://usakaja.com` |
 | `SOPORTE_WHATSAPP` | `523311974744` |
 | `MP_SANDBOX` | `1` solo para probar con credenciales de prueba |
+| **Stripe** (tarjeta y OXXO) | |
+| `STRIPE_SECRET_KEY` | dashboard.stripe.com → Desarrolladores → Claves de API → Clave secreta (`sk_live_...`) |
+| `STRIPE_WEBHOOK_SECRET` | Stripe → Desarrolladores → Webhooks → endpoint `https://usakaja.com/api/webhook-stripe` con los eventos `checkout.session.completed` y `checkout.session.async_payment_succeeded` → Clave de firma (`whsec_...`) |
+| **PayPal** | |
+| `PAYPAL_CLIENT_ID` | developer.paypal.com → Apps & Credentials → **Live** → tu app → Client ID |
+| `PAYPAL_SECRET` | La misma app → Secret |
+| `PAYPAL_SANDBOX` | `1` solo para probar con cuentas de prueba |
+| **Transferencia SPEI** | |
+| `SPEI_CLABE` | Tu CLABE de 18 dígitos |
+| `SPEI_BANCO` | Nombre del banco |
+| `SPEI_BENEFICIARIO` | Nombre del titular de la cuenta, tal como aparece en el banco |
+
+Cada forma de pago aparece en la página **solo cuando sus llaves están cargadas**
+(`/api/metodos`). El orden se cambia en `config.js` (`metodos`).
+
+### Cómo llega cada pago
+
+- **Stripe:** el aviso `webhook-stripe` entrega la app en cuanto se paga con tarjeta,
+  o cuando se acredita el pago en OXXO (hasta 3 días).
+- **PayPal:** el cobro se hace cuando el cliente regresa a `gracias.html`
+  (`/api/estado` captura la orden y entrega).
+- **Mercado Pago:** igual que antes, por `/api/webhook`.
+- **SPEI:** el cliente ve la CLABE y una referencia (ej. `K7Q4M2P`) y le llega por correo.
+  A ti te llega un correo con el botón **"Ya recibí el pago"** → abre una página de
+  confirmación → al confirmar se envía la app y la licencia.
 
 ## Prueba local
 

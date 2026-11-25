@@ -59,15 +59,17 @@
   var C = window.SITIO || {};
   document.querySelectorAll("[data-wa]").forEach(function(a){ a.href = "https://wa.me/" + C.whatsapp; a.target = "_blank"; });
   var q = new URLSearchParams(location.search);
-  var pago = q.get("payment_id") || q.get("collection_id");
-  var ref = q.get("external_reference");
-  var st = q.get("status") || q.get("collection_status");
+  var metodo = q.get("metodo") || "mp";
+  var pago, ref, st;
+  if (metodo === "stripe") { pago = q.get("pago"); ref = q.get("ref"); }
+  else if (metodo === "paypal") { pago = q.get("token"); ref = q.get("ref"); }
+  else { metodo = "mp"; pago = q.get("payment_id") || q.get("collection_id"); ref = q.get("external_reference"); st = q.get("status") || q.get("collection_status"); }
   function ver(id){ ["cargando","listo","pendiente","fallo"].forEach(function(x){ document.getElementById(x).hidden = x !== id; }); }
   if (!pago || pago === "null" || st === "rejected" || st === "null") return ver(st === "pending" || st === "in_process" ? "pendiente" : "fallo");
   var intentos = 0;
   function preguntar(){
     intentos++;
-    fetch("/api/estado?pago=" + encodeURIComponent(pago) + "&ref=" + encodeURIComponent(ref || ""))
+    fetch("/api/estado?metodo=" + metodo + "&pago=" + encodeURIComponent(pago) + "&ref=" + encodeURIComponent(ref || ""))
       .then(function(r){ return r.json(); })
       .then(function(d){
         if (d.estado === "approved" && d.licencia) {

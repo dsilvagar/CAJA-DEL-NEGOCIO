@@ -43,3 +43,10 @@ export async function firmaValida(env, request, dataId) {
   const hex = Array.from(s, (b) => b.toString(16).padStart(2, "0")).join("");
   return hex === v1;
 }
+
+// Traduce un pago de Mercado Pago al formato común de entrega.js
+export const traducirPago = (p) => ({
+  metodo: "mp", id: p.id, ref: p.external_reference, aprobado: p.status === "approved", estado: p.status,
+  monto: p.transaction_amount, moneda: p.currency_id, plan: p.metadata?.plan,
+  correo: p.metadata?.correo || p.payer?.email, nombre: p.metadata?.nombre || p.payer?.first_name,
+});

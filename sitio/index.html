@@ -199,7 +199,7 @@
       <p>No tienes que esperar a nadie. Todo es automático.</p>
     </div>
     <div class="pasos">
-      <div class="paso sube"><h3>Elige tu plan y paga</h3><p>Paga de forma segura con Mercado Pago: tarjeta de crédito o débito, OXXO, transferencia o saldo de Mercado Pago.</p></div>
+      <div class="paso sube"><h3>Elige tu plan y paga</h3><p>Paga como prefieras: tarjeta de crédito o débito, OXXO, PayPal, Mercado Pago o transferencia SPEI.</p></div>
       <div class="paso sube"><h3>Recibe tu acceso al instante</h3><p>En cuanto se confirma tu pago te llega un correo con tu link de descarga, tu código de licencia y tu manual de uso.</p></div>
       <div class="paso sube"><h3>Instálala y empieza</h3><p>Abre el link en tu celular, agrégala a tu pantalla de inicio y en minutos estás registrando tu primera venta.</p></div>
     </div>
@@ -276,8 +276,8 @@
         <button class="btn btn-marino" data-comprar="plus">Comprar Plus</button>
       </div>
     </div>
-    <p class="nota-precios">Pago seguro procesado por Mercado Pago. Nosotros nunca vemos ni guardamos los datos de tu tarjeta.</p>
-    <div class="pagos"><span>VISA</span><span>Mastercard</span><span>American Express</span><span>OXXO</span><span>Transferencia SPEI</span><span>Mercado Pago</span></div>
+    <p class="nota-precios">Pago seguro con Stripe, PayPal o Mercado Pago. Nosotros nunca vemos ni guardamos los datos de tu tarjeta.</p>
+    <div class="pagos"><span>VISA</span><span>Mastercard</span><span>American Express</span><span>OXXO</span><span>Transferencia SPEI</span><span>PayPal</span><span>Mercado Pago</span></div>
   </div>
 </section>
 
@@ -310,7 +310,7 @@
     </div>
     <div class="faq">
       <details><summary>¿De verdad es un solo pago?</summary><p>Sí. Pagas una vez y la app es tuya. No hay mensualidades ni cobros automáticos a tu tarjeta. Las mejoras de la versión que compraste te llegan sin costo.</p></details>
-      <details><summary>¿Cómo recibo la app después de pagar?</summary><p>En cuanto Mercado Pago confirma tu pago, te llega un correo automático con tu link de descarga, tu código de licencia y tu manual de uso en PDF. También lo ves en pantalla al terminar de pagar. Si pagas en OXXO o por transferencia, te llega en cuanto se acredite el pago.</p></details>
+      <details><summary>¿Cómo recibo la app después de pagar?</summary><p>En cuanto se confirma tu pago, te llega un correo automático con tu link de descarga, tu código de licencia y tu manual de uso en PDF. También lo ves en pantalla al terminar de pagar. Si pagas en OXXO, te llega en cuanto se acredite el pago. Si pagas por transferencia SPEI, te llega cuando confirmamos el depósito, normalmente el mismo día hábil.</p></details>
       <details><summary>¿Funciona en iPhone y en Android?</summary><p>Sí. Funciona en iPhone, Android, tablets y computadora. Se instala desde el navegador con "Agregar a pantalla de inicio" y queda como cualquier otra app.</p></details>
       <details><summary>¿Necesito internet?</summary><p>No. Puedes registrar ventas y gastos sin internet. Solo lo necesitas para instalarla la primera vez y, si quieres, para respaldar o sincronizar entre celulares.</p></details>
       <details><summary>¿Quién puede ver mis datos?</summary><p>Solo tú. Tu información se guarda en tu propio celular. Si activas el respaldo en la nube, se guarda cifrada en tu cuenta y no la vendemos ni la compartimos con nadie. Lee nuestro <a href="privacidad.html">aviso de privacidad</a>.</p></details>
@@ -354,7 +354,7 @@
       <a href="privacidad.html">Aviso de privacidad</a>
       <a href="terminos.html">Términos y condiciones</a>
     </div>
-    <div class="legal">© <span data-anio>2026</span> Kaja. Todos los derechos reservados. Los pagos son procesados por Mercado Pago.</div>
+    <div class="legal">© <span data-anio>2026</span> Kaja. Todos los derechos reservados. Los pagos son procesados por Stripe, PayPal y Mercado Pago.</div>
   </div>
 </footer>
 
@@ -371,11 +371,32 @@
     <input type="text" id="cNombre" autocomplete="name" required maxlength="80" placeholder="Ej. María López">
     <label for="cCorreo">Tu correo electrónico</label>
     <input type="email" id="cCorreo" autocomplete="email" required maxlength="120" placeholder="tucorreo@ejemplo.com">
+    <fieldset class="metodos" id="cMetodos">
+      <legend>¿Cómo quieres pagar?</legend>
+      <label data-m="stripe"><input type="radio" name="metodo" value="stripe"><span><b>Tarjeta u OXXO</b><small>Crédito, débito o efectivo en OXXO</small></span></label>
+      <label data-m="paypal"><input type="radio" name="metodo" value="paypal"><span><b>PayPal</b><small>Con tu cuenta PayPal o tarjeta</small></span></label>
+      <label data-m="mp"><input type="radio" name="metodo" value="mp"><span><b>Mercado Pago</b><small>Con tu saldo o tarjeta de Mercado Pago</small></span></label>
+      <label data-m="spei"><input type="radio" name="metodo" value="spei"><span><b>Transferencia SPEI</b><small>Desde tu banco. Tu app llega cuando confirmamos el depósito</small></span></label>
+    </fieldset>
     <label class="acepto"><input type="checkbox" id="cAcepto" required> <span>Acepto los <a href="terminos.html" target="_blank">términos y condiciones</a> y el <a href="privacidad.html" target="_blank">aviso de privacidad</a>.</span></label>
     <div class="error" id="cError"></div>
     <button class="btn btn-oro" id="cPagar" type="submit">Continuar al pago seguro</button>
-    <div class="seguro"><svg><use href="#i-candado"/></svg>Pago protegido por Mercado Pago</div>
+    <div class="seguro"><svg><use href="#i-candado"/></svg>Pago seguro. Nunca vemos los datos de tu tarjeta.</div>
   </form>
+  <div class="compra" id="cSpei" hidden>
+    <button type="button" class="cerrar" data-cerrar aria-label="Cerrar">×</button>
+    <h3>Datos para tu transferencia</h3>
+    <p style="color:var(--gris);margin:0">También te los mandamos a tu correo.</p>
+    <dl class="banco">
+      <div><dt>Banco</dt><dd id="sBanco"></dd></div>
+      <div><dt>Beneficiario</dt><dd id="sBenef"></dd></div>
+      <div><dt>CLABE</dt><dd><span id="sClabe"></span> <button type="button" class="copiar" data-copiar="sClabe">Copiar</button></dd></div>
+      <div><dt>Monto exacto</dt><dd id="sMonto"></dd></div>
+      <div><dt>Concepto</dt><dd><span id="sRef"></span> <button type="button" class="copiar" data-copiar="sRef">Copiar</button></dd></div>
+    </dl>
+    <p style="font-size:15px;margin:0 0 4px">1. Transfiere desde la app de tu banco con el concepto de arriba.<br>2. Mándanos tu comprobante.<br>3. Te llega tu app, tu licencia y tu manual a tu correo, normalmente el mismo día hábil.</p>
+    <a class="btn btn-oro" id="sWa" href="#" target="_blank" rel="noopener" style="width:100%;margin-top:16px;text-align:center">Enviar comprobante por WhatsApp</a>
+  </div>
 </div>
 
 </body>

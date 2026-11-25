@@ -3,36 +3,42 @@ import { nuevaLicencia } from "./licencia.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+export const METODOS = { mp: "Mercado Pago", stripe: "Stripe (tarjeta u OXXO)", paypal: "PayPal", spei: "Transferencia SPEI" };
+
 // Revisa que el pago sea real y completo, crea la licencia y manda el correo.
 // Se puede llamar varias veces con el mismo pago: solo entrega una vez.
-export async function entregar(env, sitioUrl, pago) {
-  const id = String(pago.id);
-  const ya = await env.VENTAS.get(`pago:${id}`, "json");
+// "v" es el pago ya traducido por cada método (ver mercadopago.js, stripe.js, paypal.js):
+//   { metodo, id, ref, aprobado, estado, monto, moneda, plan?, correo?, nombre? }
+export async function entregar(env, sitioUrl, v) {
+  const id = String(v.id);
+  const clave = `pago:${v.metodo}:${id}`;
+  const ya = await env.VENTAS.get(clave, "json");
   if (ya) return { ...ya, nuevo: false };
 
-  if (pago.status !== "approved") return { estado: pago.status || "pendiente" };
+  if (!v.aprobado) return { estado: v.estado || "pendiente" };
 
-  const ref = pago.external_reference || "";
+  const ref = v.ref || "";
   const pedido = (ref && (await env.VENTAS.get(`pedido:${ref}`, "json"))) || {};
-  const planId = pedido.plan || pago.metadata?.plan;
+  const planId = pedido.plan || v.plan;
   const plan = PLANES[planId];
   const invalido = (m) => Object.assign(new Error(m), { name: "PagoInvalido" });
-  if (!plan) throw invalido(`Pago ${id}: plan desconocido (${planId})`);
-  if (pago.currency_id !== "MXN" || Number(pago.transaction_amount) + 0.001 < plan.precio)
-    throw invalido(`Pago ${id}: monto ${pago.transaction_amount} ${pago.currency_id} no cubre el plan ${planId}`);
+  if (!plan) throw invalido(`Pago ${v.metodo} ${id}: plan desconocido (${planId})`);
+  if (String(v.moneda).toUpperCase() !== "MXN" || Number(v.monto) + 0.001 < plan.precio)
+    throw invalido(`Pago ${v.metodo} ${id}: monto ${v.monto} ${v.moneda} no cubre el plan ${planId}`);
 
-  const correo = pedido.correo || pago.metadata?.correo || pago.payer?.email;
-  const nombre = pedido.nombre || pago.metadata?.nombre || pago.payer?.first_name || "";
-  const licencia = await nuevaLicencia(env.LICENSE_SECRET, plan.letra, id);
+  const correo = pedido.correo || v.correo;
+  const nombre = pedido.nombre || v.nombre || "";
+  const licencia = await nuevaLicencia(env.LICENSE_SECRET, plan.letra, `${v.metodo}:${id}`);
   const registro = {
-    estado: "approved", pago: id, ref, plan: planId, correo, nombre, licencia,
-    monto: pago.transaction_amount, fecha: new Date().toISOString(),
+    estado: "approved", metodo: v.metodo, pago: id, ref, plan: planId, correo, nombre, licencia,
+    monto: Number(v.monto), fecha: new Date().toISOString(),
     app: env.APP_URL, manual: `${sitioUrl}/api/manual?lic=${licencia}`,
   };
 
-  await env.VENTAS.put(`pago:${id}`, JSON.stringify(registro));
+  await env.VENTAS.put(clave, JSON.stringify(registro));
+  if (ref) await env.VENTAS.put(`ref:${ref}`, clave);
   await env.VENTAS.put(`lic:${licencia}`, JSON.stringify({
-    plan: planId, correo, nombre, pago: id, fecha: registro.fecha, dispositivos: plan.dispositivos,
+    plan: planId, correo, nombre, metodo: v.metodo, pago: id, fecha: registro.fecha, dispositivos: plan.dispositivos,
   }));
 
   try {
@@ -45,19 +51,38 @@ export async function entregar(env, sitioUrl, pago) {
   } catch (e) {
     registro.correoEnviado = false;
     registro.errorCorreo = String(e.message || e).slice(0, 300);
-    await env.VENTAS.put(`pago:${id}`, JSON.stringify(registro));
+    await env.VENTAS.put(clave, JSON.stringify(registro));
   }
 
   if (env.ADMIN_EMAIL) {
     await mandarCorreo(env, {
       to: env.ADMIN_EMAIL,
-      subject: `💰 Nueva venta: plan ${planId} $${pago.transaction_amount} MXN`,
-      html: `<p><b>${esc(nombre)}</b> (${esc(correo)}) compró el plan <b>${esc(planId)}</b> por $${esc(pago.transaction_amount)} MXN.</p>
-<p>Licencia: <b>${esc(licencia)}</b><br>Pago Mercado Pago: ${esc(id)}<br>
+      subject: `💰 Nueva venta: plan ${planId} $${registro.monto} MXN (${METODOS[v.metodo]})`,
+      html: `<p><b>${esc(nombre)}</b> (${esc(correo)}) compró el plan <b>${esc(planId)}</b> por $${esc(registro.monto)} MXN con <b>${esc(METODOS[v.metodo])}</b>.</p>
+<p>Licencia: <b>${esc(licencia)}</b><br>Folio del pago: ${esc(id)}<br>
 Correo al cliente: ${registro.correoEnviado ? "enviado ✅" : "FALLÓ ❌ " + esc(registro.errorCorreo)}</p>`,
     }).catch(() => {});
   }
   return { ...registro, nuevo: true };
+}
+
+// Lo que la página de "gracias" puede ver (nada privado de más).
+export const publico = (r) => ({ estado: "approved", plan: r.plan, licencia: r.licencia, app: r.app, manual: r.manual, correo: r.correo });
+
+// Guarda el pedido antes de mandar al cliente a pagar.
+export function validarPedido(d) {
+  const plan = PLANES[d.plan];
+  const nombre = String(d.nombre || "").trim().slice(0, 80);
+  const correo = String(d.correo || "").trim().toLowerCase().slice(0, 120);
+  if (!plan) return { error: "Elige un plan." };
+  if (nombre.length < 2) return { error: "Escribe tu nombre." };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) return { error: "Revisa tu correo." };
+  return { plan, planId: d.plan, nombre, correo };
+}
+
+export async function guardarPedido(env, ref, datos) {
+  await env.VENTAS.put(`pedido:${ref}`, JSON.stringify({ ...datos, creado: new Date().toISOString() }),
+    { expirationTtl: 60 * 60 * 24 * 45 });
 }
 
 export async function mandarCorreo(env, { to, subject, html }) {
@@ -99,7 +124,7 @@ function correoCliente(env, r, plan) {
   <p style="font-size:14px;color:#5b6576;margin:0">¿Dudas? ${wa ? `Escríbenos por <a href="${esc(wa)}" style="color:#1d3a6b">WhatsApp</a> o r` : "R"}esponde a este correo y te ayudamos.</p>
 </td></tr>
 <tr><td style="background:#faf7ef;padding:16px 28px;font-size:12px;color:#5b6576">
-  Folio de pago: ${esc(r.pago)} · Este correo se envió automáticamente porque compraste Kaja.
+  Folio de pago: ${esc(r.pago)} (${esc(METODOS[r.metodo] || "")}) · Este correo se envió automáticamente porque compraste Kaja.
   Tus datos no se comparten con nadie. Consulta nuestro aviso de privacidad en el sitio.
 </td></tr></table></td></tr></table></body></html>`;
 }

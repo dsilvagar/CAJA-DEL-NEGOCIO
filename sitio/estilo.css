@@ -219,3 +219,19 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgb(255 255 255 / .08);paddi
 
 /* Velocidad: el celular no dibuja las secciones de abajo hasta que te acercas a ellas */
 main>section:not(.portada){content-visibility:auto;contain-intrinsic-size:auto 900px}
+
+/* Formas de pago */
+.metodos{border:0;padding:0;margin:16px 0 0;display:grid;gap:8px}
+.metodos legend{font-size:14px;font-weight:700;margin-bottom:6px;padding:0}
+.metodos label{display:flex;gap:12px;align-items:center;border:1.5px solid var(--linea);border-radius:14px;padding:12px 14px;cursor:pointer;margin:0;font-weight:400}
+.metodos label:has(input:checked){border-color:var(--oro);background:#fffbea}
+.metodos input{width:20px;height:20px;accent-color:var(--marino);flex:none;margin:0}
+.metodos b{display:block;font-size:16px}
+.metodos small{display:block;color:var(--gris);font-size:13px;line-height:1.35}
+.metodos [hidden]{display:none}
+.banco{margin:16px 0;display:grid;gap:0;background:var(--crema);border:1px solid var(--linea);border-radius:14px;padding:6px 16px}
+.banco div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--linea);align-items:center}
+.banco div:first-child{border-top:0}
+.banco dt{color:var(--gris);font-size:14px}
+.banco dd{margin:0;font-weight:700;text-align:right;word-break:break-all}
+.copiar{border:0;background:var(--marino);color:#fff;border-radius:99px;padding:4px 10px;font:600 12px var(--f);margin-left:6px;cursor:pointer}
