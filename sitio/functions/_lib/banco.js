@@ -3,7 +3,7 @@
 // (Si cargas SPEI_CLABE, SPEI_BANCO o SPEI_BENEFICIARIO en Cloudflare, esos ganan.)
 export const BANCO = {
   clabe: "646195405600536819",   // dígito verificador revisado ✔
-  banco: "STP",                  // institución que indica el prefijo 646 de la CLABE
+  banco: "Plata (STP)",          // Plata usa STP: en la app del cliente puede aparecer como STP
   beneficiario: "DANIEL SILVA GARCIA",
 };
 
