@@ -10,6 +10,10 @@ import { metodosActivos } from "./metodos.js";
 export async function onRequestPost({ request, env }) {
   let d;
   try { d = await request.json(); } catch { return json({ error: "Datos inválidos." }, 400); }
+  if (!env.VENTAS) {
+    console.error("Falta el KV VENTAS en Cloudflare (Settings → Bindings)");
+    return json({ error: "La tienda todavía se está configurando. Escríbenos por WhatsApp y te atendemos." }, 503);
+  }
   const v = validarPedido(d);
   if (v.error) return json({ error: v.error }, 400);
   const metodo = d.metodo || "mp";
